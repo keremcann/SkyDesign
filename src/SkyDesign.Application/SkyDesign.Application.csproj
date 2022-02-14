@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkyDesign.Application.Contract\SkyDesign.Application.Contract.csproj" />
+    <ProjectReference Include="..\SkyDesign.Helper\SkyDesign.Helper.csproj" />
+  </ItemGroup>
+
+</Project>
