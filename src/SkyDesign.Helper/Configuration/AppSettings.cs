@@ -29,5 +29,16 @@ namespace SkyDesign.Helper.Configuration
             IConfiguration configuration = builder.Build();
             return configuration.GetSection("Jwt").GetSection("SecretKey").Value;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetLogFilePath()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory).AddJsonFile("appsettings.json", true, false);
+            IConfiguration configuration = builder.Build();
+            return configuration.GetSection("Paths").GetSection("LogFilePath").Value;
+        }
     }
 }

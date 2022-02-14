@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SkyDesign.Domain.Shared\SkyDesign.Domain.Shared.csproj" />
+    <ProjectReference Include="..\SkyDesign.Helper\SkyDesign.Helper.csproj" />
+  </ItemGroup>
+
 </Project>
