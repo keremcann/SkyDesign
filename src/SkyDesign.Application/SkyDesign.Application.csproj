@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkyDesign.Application.Contract\SkyDesign.Application.Contract.csproj" />
+    <ProjectReference Include="..\SkyDesign.Domain\SkyDesign.Domain.csproj" />
   </ItemGroup>
 
 </Project>

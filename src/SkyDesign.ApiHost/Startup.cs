@@ -9,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using SkyDesign.Application;
 using SkyDesign.Core.Auth;
 using SkyDesign.Core.Configuration;
+using SkyDesign.Dapper;
+using SkyDesign.Domain.Repositories;
 using System.Text;
 
 namespace SkyDesign.ApiHost
@@ -101,6 +103,7 @@ namespace SkyDesign.ApiHost
             });
 
             services.AddScoped<IAuthentication, Authentication>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         /// <summary>

@@ -10,6 +10,6 @@ namespace SkyDesign.Core.Auth
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<AuthenticationType> Authenticate(string username, string password);
+        Task<AuthenticationType> Authenticate(string username, string password, string role);
     }
 }

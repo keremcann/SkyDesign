@@ -16,7 +16,7 @@ namespace SkyDesign.Core.Auth
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public Task<AuthenticationType> Authenticate(string username, string password)
+        public Task<AuthenticationType> Authenticate(string username, string password, string role)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace SkyDesign.Core.Auth
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                     new Claim(ClaimTypes.Name, username),
-                    new Claim(ClaimTypes.Role, "Admin")
+                    new Claim(ClaimTypes.Role, role)
                     }),
                     Expires = DateTime.UtcNow.AddDays(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

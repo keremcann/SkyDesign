@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using SkyDesign.Application.Contract.Queries.Login;
 using SkyDesign.Core.Auth;
+using SkyDesign.Domain.Entities;
+using SkyDesign.Domain.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,14 +11,16 @@ namespace SkyDesign.Application.Handlers
     public class GetLoginQueryHandler : IRequestHandler<GetLoginQueryRequest, GetLoginQueryResponse>
     {
         IAuthentication _authentication;
+        IUserRepository _userRepository;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="authentication"></param>
-        public GetLoginQueryHandler(IAuthentication authentication)
+        public GetLoginQueryHandler(IAuthentication authentication, IUserRepository userRepository)
         {
             _authentication = authentication;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -28,7 +32,12 @@ namespace SkyDesign.Application.Handlers
         public async Task<GetLoginQueryResponse> Handle(GetLoginQueryRequest request, CancellationToken cancellationToken)
         {
             var response = new GetLoginQueryResponse();
-            var result = await _authentication.Authenticate(request.UserName, request.Password);
+
+            var user = _userRepository.GetItemAsync(new User { UserName = request.UserName, Password = request.Password });
+            if (user == null)
+                return new GetLoginQueryResponse { Success = false, ErrorMessage = "Kullanıcı bulunamadı!" };
+            
+            var result = await _authentication.Authenticate(user.Result.Value.UserName, user.Result.Value.Password, "Admin");
             if (!result.Success)
             {
                 response.Success = result.Success;

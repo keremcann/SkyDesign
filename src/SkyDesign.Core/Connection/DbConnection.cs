@@ -59,7 +59,7 @@ namespace SkyDesign.Core.Connection
         private static string EditConnectionString(string connectionString)
         {
             string secretPassword = AppSettings.GetConnectionStringPassword();
-            string password = Encryption.EncryptWithDefaultKey(secretPassword);
+            string password = Decryption.DecryptWithDefaultKey(secretPassword);
             connectionString = connectionString.Replace("#password#", password);
             return connectionString;
         }

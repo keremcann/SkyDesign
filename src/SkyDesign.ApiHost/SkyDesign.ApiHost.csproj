@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SkyDesign.Application\SkyDesign.Application.csproj" />
     <ProjectReference Include="..\SkyDesign.Core\SkyDesign.Core.csproj" />
+    <ProjectReference Include="..\SkyDesign.Dapper\SkyDesign.Dapper.csproj" />
   </ItemGroup>
 
 </Project>
