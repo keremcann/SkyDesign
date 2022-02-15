@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SkyDesign.Application.Contract.Queries.Login;
-using SkyDesign.Helper.Auth;
+using SkyDesign.Core.Auth;
 using System.Threading;
 using System.Threading.Tasks;
 

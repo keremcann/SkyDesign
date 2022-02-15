@@ -7,8 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SkyDesign.Application;
-using SkyDesign.Helper.Auth;
-using SkyDesign.Helper.Configuration;
+using SkyDesign.Core.Auth;
+using SkyDesign.Core.Configuration;
 using System.Text;
 
 namespace SkyDesign.ApiHost

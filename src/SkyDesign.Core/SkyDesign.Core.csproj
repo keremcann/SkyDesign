@@ -6,7 +6,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkyDesign.Domain.Shared\SkyDesign.Domain.Shared.csproj" />
-    <ProjectReference Include="..\SkyDesign.Helper\SkyDesign.Helper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.22" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />
   </ItemGroup>
 
 </Project>

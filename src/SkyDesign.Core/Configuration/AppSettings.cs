@@ -1,7 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SkyDesign.Helper.Configuration
+namespace SkyDesign.Core.Configuration
 {
     /// <summary>
     /// appsettings.json dosyasından key-value döndürür

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SkyDesign.Helper.Auth
+namespace SkyDesign.Core.Auth
 {
     public interface IAuthentication
     {

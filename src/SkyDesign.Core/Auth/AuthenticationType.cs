@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyDesign.Helper.Auth
+namespace SkyDesign.Core.Auth
 {
     public class AuthenticationType
     {

@@ -1,12 +1,12 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using SkyDesign.Helper.Configuration;
+using SkyDesign.Core.Configuration;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkyDesign.Helper.Auth
+namespace SkyDesign.Core.Auth
 {
     public class Authentication : IAuthentication
     {
