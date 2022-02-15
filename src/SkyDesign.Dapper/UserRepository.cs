@@ -14,68 +14,115 @@ namespace SkyDesign.Dapper
 {
     public class UserRepository : DbConnection, IUserRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<CommonResponse<User>> AddAsync(User request)
         {
             string query = String.Format("");
             var data = new CommonResponse<User>();
             data.Value = new User();
+
+            if (!connection.Success) 
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+                
             try
             {
-                data.Value = db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
-                db.Close();
+                connection.db.Close();
                 return await Task.FromResult(data);
             }
             catch (Exception ex)
             {
                 data.Success = false;
                 data.ErrorMessage = ex.Message;
-                db.Close();
+                connection.db.Close();
                 return await Task.FromResult(data);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public Task<CommonResponse<User>> DeleteAsync(User request)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Task<CommonResponse<List<User>>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<CommonResponse<List<User>>> GetAsync(User request)
         {
             string query = String.Format("");
             var data = new CommonResponse<List<User>>();
             data.Value = new List<User>();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
             try
             {
-                data.Value = db.QueryAsync<User>(query, CommandType.Text).Result.ToList();
+                data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.ToList();
                 data.Success = true;
-                db.Close();
+                connection.db.Close();
                 return await Task.FromResult(data);
             }
             catch (Exception ex)
             {
                 data.Success = false;
                 data.ErrorMessage = ex.Message;
-                db.Close();
+                connection.db.Close();
                 return await Task.FromResult(data);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<CommonResponse<User>> GetItemAsync(User request)
         {
             string query = String.Format("SELECT * FROM [dbo].[User] WHERE UserName='{0}' AND Password='{1}'", request.UserName, request.Password);
             var data = new CommonResponse<User>();
             data.Value = new User();
+
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
             try
             {
-                data.Value = db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
-                db.Close();
+                connection.db.Close();
                 return await Task.FromResult(data);
             }
             catch (Exception ex)
@@ -84,11 +131,16 @@ namespace SkyDesign.Dapper
                 data.ErrorMessage = ex.Message;
                 FileLog log = new FileLog();
                 log.Error(ex.Message);
-                db.Close();
+                connection.db.Close();
                 return await Task.FromResult(data);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public Task<CommonResponse<User>> UpdateAsync(User request)
         {
             throw new NotImplementedException();

@@ -1,5 +1,6 @@
 ﻿using SkyDesign.Core.Configuration;
 using SkyDesign.Core.Cryptography;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -7,36 +8,38 @@ namespace SkyDesign.Core.Connection
 {
     public abstract class DbConnection
     {
-        public IDbConnection db;
+        public DbConnectionResult connection;
 
         /// <summary>
         /// 
         /// </summary>
         public DbConnection()
         {
-            db = OpenConnection();
+            connection = OpenConnection();
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        private IDbConnection OpenConnection()
+        private DbConnectionResult OpenConnection()
         {
-            IDbConnection _db = new SqlConnection(EditConnectionString(AppSettings.GetConnectionString()));
-            _db.Open();
-            return _db;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void CloseConnection()
-        {
-            if (db.State == ConnectionState.Open)
+            var response = new DbConnectionResult();
+            try
             {
-                db.Close();
+                IDbConnection _db = new SqlConnection(EditConnectionString(AppSettings.GetConnectionString()));
+                _db.Open();
+                response.db = _db;
+                response.Success = true;
+                response.ErrorMessage = "Success";
+                
             }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+            return response;
         }
 
         /// <summary>

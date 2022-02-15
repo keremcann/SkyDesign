@@ -34,6 +34,10 @@ namespace SkyDesign.Application.Handlers
             var response = new GetLoginQueryResponse();
 
             var user = _userRepository.GetItemAsync(new User { UserName = request.UserName, Password = request.Password });
+
+            if (!user.Result.Success)
+                return new GetLoginQueryResponse { Success = user.Result.Success, ErrorMessage = user.Result.ErrorMessage };
+
             if (user == null)
                 return new GetLoginQueryResponse { Success = false, ErrorMessage = "Kullanıcı bulunamadı!" };
             
