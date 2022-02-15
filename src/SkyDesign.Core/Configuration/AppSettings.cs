@@ -44,5 +44,16 @@ namespace SkyDesign.Core.Configuration
             IConfiguration configuration = builder.Build();
             return configuration.GetSection("Paths").GetSection("LogFilePath").Value;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetCryptographyKey()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory).AddJsonFile("appsettings.json", true, false);
+            IConfiguration configuration = builder.Build();
+            return configuration.GetSection("CryptoKey").Value;
+        }
     }
 }
