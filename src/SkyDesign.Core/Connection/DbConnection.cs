@@ -1,5 +1,6 @@
 ﻿using SkyDesign.Core.Configuration;
 using SkyDesign.Core.Cryptography;
+using SkyDesign.Core.LogHelper;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -31,13 +32,14 @@ namespace SkyDesign.Core.Connection
                 _db.Open();
                 response.db = _db;
                 response.Success = true;
-                response.ErrorMessage = "Success";
-                
+                response.ErrorMessage = "Success";                
             }
             catch (Exception ex)
             {
                 response.Success = false;
                 response.ErrorMessage = ex.Message;
+                FileLog log = new FileLog();
+                log.Error(ex.Message);
             }
             return response;
         }
