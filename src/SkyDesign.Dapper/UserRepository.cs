@@ -82,6 +82,8 @@ namespace SkyDesign.Dapper
             {
                 data.Success = false;
                 data.ErrorMessage = ex.Message;
+                FileLog log = new FileLog();
+                log.Error(ex.Message);
                 db.Close();
                 return await Task.FromResult(data);
             }
