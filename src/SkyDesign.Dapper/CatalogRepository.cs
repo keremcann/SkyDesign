@@ -20,7 +20,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<Catalog>> AddAsync(Catalog request)
         {
-            string query = String.Format("");
+            string query = String.Format("INSERT INTO [dbo].[Catalog](CatalogName, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}', '{2}', 1)", request.CatalogName, request.CreateUser, DateTime.Now);
             var data = new CommonResponse<Catalog>();
             data.Value = new Catalog();
             if (!connection.Success)

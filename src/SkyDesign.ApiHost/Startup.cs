@@ -104,6 +104,9 @@ namespace SkyDesign.ApiHost
 
             services.AddScoped<IAuthentication, Authentication>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICatalogRepository, CatalogRepository>();
+            services.AddScoped<ISubCatalogRepository, SubCatalogRepository>();
+            services.AddScoped<ISubCatalogDetailRepository, SubCatalogDetailRepository>();
         }
 
         /// <summary>

@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using SkyDesign.Application.Contract.Commands.Test;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkyDesign.Application.Handlers
+namespace SkyDesign.Application.Handlers.Catalog
 {
     public class CreateTestCommandHandler : IRequestHandler<CreateTestCommandRequest, CreateTestCommandResponse>
     {
