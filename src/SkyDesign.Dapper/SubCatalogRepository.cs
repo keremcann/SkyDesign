@@ -1,24 +1,49 @@
-﻿using SkyDesign.Core.Base;
+﻿using Dapper;
+using SkyDesign.Core.Base;
+using SkyDesign.Core.Connection;
 using SkyDesign.Domain.Entities;
 using SkyDesign.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SkyDesign.Dapper
 {
-    public class SubCatalogRepository : ISubCatalogRepository
+    public class SubCatalogRepository : DbConnection, ISubCatalogRepository
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<CommonResponse<SubCatalog>> AddAsync(SubCatalog request)
+        public async Task<CommonResponse<SubCatalog>> AddAsync(SubCatalog request)
         {
-            throw new NotImplementedException();
+            string query = String.Format("");
+            var data = new CommonResponse<SubCatalog>();
+            data.Value = new SubCatalog();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
 
         /// <summary>
@@ -26,18 +51,64 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<CommonResponse<SubCatalog>> DeleteAsync(SubCatalog request)
+        public async Task<CommonResponse<SubCatalog>> DeleteAsync(SubCatalog request)
         {
-            throw new NotImplementedException();
+            string query = String.Format("");
+            var data = new CommonResponse<SubCatalog>();
+            data.Value = new SubCatalog();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public Task<CommonResponse<List<SubCatalog>>> GetAllAsync()
+        public async Task<CommonResponse<List<SubCatalog>>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            string query = String.Format("");
+            var data = new CommonResponse<List<SubCatalog>>();
+            data.Value = new List<SubCatalog>();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalog>(query, CommandType.Text).Result.ToList();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
 
         /// <summary>
@@ -45,9 +116,32 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<CommonResponse<List<SubCatalog>>> GetAsync(SubCatalog request)
+        public async Task<CommonResponse<List<SubCatalog>>> GetAsync(SubCatalog request)
         {
-            throw new NotImplementedException();
+            string query = String.Format("");
+            var data = new CommonResponse<List<SubCatalog>>();
+            data.Value = new List<SubCatalog>();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalog>(query, CommandType.Text).Result.ToList();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
 
         /// <summary>
@@ -55,9 +149,32 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<CommonResponse<SubCatalog>> GetItemAsync(SubCatalog request)
+        public async Task<CommonResponse<SubCatalog>> GetItemAsync(SubCatalog request)
         {
-            throw new NotImplementedException();
+            string query = String.Format("");
+            var data = new CommonResponse<SubCatalog>();
+            data.Value = new SubCatalog();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
 
         /// <summary>
@@ -65,9 +182,32 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Task<CommonResponse<SubCatalog>> UpdateAsync(SubCatalog request)
+        public async Task<CommonResponse<SubCatalog>> UpdateAsync(SubCatalog request)
         {
-            throw new NotImplementedException();
+            string query = String.Format("");
+            var data = new CommonResponse<SubCatalog>();
+            data.Value = new SubCatalog();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
     }
 }
