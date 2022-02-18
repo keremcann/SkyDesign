@@ -3,6 +3,7 @@ using System;
 
 namespace SkyDesign.Application.Contract.Commands.Catalog
 {
+    [Serializable]
     public class UpdateCatalogCommandRequest : IRequest<UpdateCatalogCommandResponse>
     {
         public int CatalogId { get; set; }
