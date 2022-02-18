@@ -17,7 +17,6 @@ namespace SkyDesign.Core.LogHelper
         /// </summary>
         public FileLog()
         {
-
             string path = Directory.GetCurrentDirectory() + AppSettings.GetLogFilePath();
             if (!Directory.Exists(path))
             {
@@ -35,8 +34,6 @@ namespace SkyDesign.Core.LogHelper
             WriteFormattedLog(LogLevel.DEBUG, text);
         }
 
-
-
         /// <summary>
         /// Log an ERROR message
         /// </summary>
@@ -45,8 +42,6 @@ namespace SkyDesign.Core.LogHelper
         {
             WriteFormattedLog(LogLevel.ERROR, text);
         }
-
-
 
         /// <summary>
         /// Log a FATAL ERROR message
