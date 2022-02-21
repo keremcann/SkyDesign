@@ -3,7 +3,7 @@ using SkyDesign.Domain.Entities;
 
 namespace SkyDesign.Domain.Repositories
 {
-    public interface ICatalogRepository : IRepositoryAsync<Catalog>
+    public interface ICatalogRepository : IRepository<Catalog>
     {
     }
 }

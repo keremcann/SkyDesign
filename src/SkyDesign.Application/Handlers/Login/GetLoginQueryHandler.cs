@@ -6,18 +6,18 @@ using SkyDesign.Domain.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkyDesign.Application.Handlers
+namespace SkyDesign.Application.Handlers.Login
 {
     public class GetLoginQueryHandler : IRequestHandler<GetLoginQueryRequest, GetLoginQueryResponse>
     {
         IAuthentication _authentication;
-        IUserRepository _userRepository;
+        IUserRepositoryAsync _userRepository;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="authentication"></param>
-        public GetLoginQueryHandler(IAuthentication authentication, IUserRepository userRepository)
+        public GetLoginQueryHandler(IAuthentication authentication, IUserRepositoryAsync userRepository)
         {
             _authentication = authentication;
             _userRepository = userRepository;

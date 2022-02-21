@@ -3,7 +3,7 @@ using SkyDesign.Domain.Entities;
 
 namespace SkyDesign.Domain.Repositories
 {
-    public interface IUserRepository : IRepositoryAsync<User>
+    public interface IUserRepository : IRepository<User>
     {
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SkyDesign.Dapper
 {
-    public class UserRepository : DbConnection, IUserRepository
+    public class UserRepositoryAsync : DbConnection, IUserRepositoryAsync
     {
         /// <summary>
         /// 

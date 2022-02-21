@@ -18,35 +18,28 @@ namespace SkyDesign.Domain.Common
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        CommonResponse<List<T>> Get(T request);
+        CommonResponse<T> Get(object id);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        CommonResponse<T> GetItem(T request);
+        CommonResponse<T> Add(T entity);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        CommonResponse<T> Add(T request);
+        CommonResponse<T> Update(T entity);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        CommonResponse<T> Update(T request);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        CommonResponse<T> Delete(T request);
+        CommonResponse<T> Delete(object id);
 
         #endregion
     }

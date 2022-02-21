@@ -9,13 +9,13 @@ namespace SkyDesign.Application.Handlers.Catalog
 {
     public class CreateCatalogCommandHandler : IRequestHandler<CreateCatalogCommandRequest, CreateCatalogCommandResponse>
     {
-        ICatalogRepository _catalogRepository;
+        ICatalogRepositoryAsync _catalogRepository;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="catalogRepository"></param>
-        public CreateCatalogCommandHandler(ICatalogRepository catalogRepository)
+        public CreateCatalogCommandHandler(ICatalogRepositoryAsync catalogRepository)
         {
             _catalogRepository = catalogRepository;
         }

@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace SkyDesign.Dapper
 {
-    public class CatalogRepository : DbConnection, ICatalogRepository
+    public class SubCatalogDetailRepositoryAsync : DbConnection, ISubCatalogDetailRepositoryAsync
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<CommonResponse<Catalog>> AddAsync(Catalog request)
+        public async Task<CommonResponse<SubCatalogDetail>> AddAsync(SubCatalogDetail request)
         {
-            string query = String.Format("INSERT INTO [dbo].[Catalog](CatalogName, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}', '{2}', 1)", request.CatalogName, request.CreateUser, DateTime.Now);
-            var data = new CommonResponse<Catalog>();
-            data.Value = new Catalog();
+            string query = String.Format("");
+            var data = new CommonResponse<SubCatalogDetail>();
+            data.Value = new SubCatalogDetail();
             if (!connection.Success)
             {
                 data.Success = false;
@@ -32,7 +32,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Catalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -51,11 +51,11 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<CommonResponse<Catalog>> DeleteAsync(Catalog request)
+        public async Task<CommonResponse<SubCatalogDetail>> DeleteAsync(SubCatalogDetail request)
         {
             string query = String.Format("");
-            var data = new CommonResponse<Catalog>();
-            data.Value = new Catalog();
+            var data = new CommonResponse<SubCatalogDetail>();
+            data.Value = new SubCatalogDetail();
             if (!connection.Success)
             {
                 data.Success = false;
@@ -65,7 +65,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Catalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -83,11 +83,11 @@ namespace SkyDesign.Dapper
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<CommonResponse<List<Catalog>>> GetAllAsync()
+        public async Task<CommonResponse<List<SubCatalogDetail>>> GetAllAsync()
         {
             string query = String.Format("");
-            var data = new CommonResponse<List<Catalog>>();
-            data.Value = new List<Catalog>();
+            var data = new CommonResponse<List<SubCatalogDetail>>();
+            data.Value = new List<SubCatalogDetail>();
             if (!connection.Success)
             {
                 data.Success = false;
@@ -97,40 +97,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Catalog>(query, CommandType.Text).Result.ToList();
-                data.Success = true;
-                connection.db.Close();
-                return await Task.FromResult(data);
-            }
-            catch (Exception ex)
-            {
-                data.Success = false;
-                data.ErrorMessage = ex.Message;
-                connection.db.Close();
-                return await Task.FromResult(data);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public async Task<CommonResponse<List<Catalog>>> GetAsync(Catalog request)
-        {
-            string query = String.Format("");
-            var data = new CommonResponse<List<Catalog>>();
-            data.Value = new List<Catalog>();
-            if (!connection.Success)
-            {
-                data.Success = false;
-                data.ErrorMessage = connection.ErrorMessage;
-                return await Task.FromResult(data);
-            }
-
-            try
-            {
-                data.Value = connection.db.QueryAsync<Catalog>(query, CommandType.Text).Result.ToList();
+                data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, CommandType.Text).Result.ToList();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -149,11 +116,11 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<CommonResponse<Catalog>> GetItemAsync(Catalog request)
+        public async Task<CommonResponse<List<SubCatalogDetail>>> GetAsync(SubCatalogDetail request)
         {
             string query = String.Format("");
-            var data = new CommonResponse<Catalog>();
-            data.Value = new Catalog();
+            var data = new CommonResponse<List<SubCatalogDetail>>();
+            data.Value = new List<SubCatalogDetail>();
             if (!connection.Success)
             {
                 data.Success = false;
@@ -163,7 +130,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Catalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, CommandType.Text).Result.ToList();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -182,11 +149,11 @@ namespace SkyDesign.Dapper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<CommonResponse<Catalog>> UpdateAsync(Catalog request)
+        public async Task<CommonResponse<SubCatalogDetail>> GetItemAsync(SubCatalogDetail request)
         {
             string query = String.Format("");
-            var data = new CommonResponse<Catalog>();
-            data.Value = new Catalog();
+            var data = new CommonResponse<SubCatalogDetail>();
+            data.Value = new SubCatalogDetail();
             if (!connection.Success)
             {
                 data.Success = false;
@@ -196,7 +163,40 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Catalog>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<CommonResponse<SubCatalogDetail>> UpdateAsync(SubCatalogDetail request)
+        {
+            string query = String.Format("");
+            var data = new CommonResponse<SubCatalogDetail>();
+            data.Value = new SubCatalogDetail();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,8 @@ using SkyDesign.Core.Auth;
 using SkyDesign.Core.Configuration;
 using SkyDesign.Dapper;
 using SkyDesign.Domain.Repositories;
+using SkyDesign.EntityFrameworkCore.Business;
+using SkyDesign.EntityFrameworkCore.Context;
 using System.Text;
 
 namespace SkyDesign.ApiHost
@@ -37,6 +40,9 @@ namespace SkyDesign.ApiHost
             services.AddApplicationRegistration();
 
             services.AddControllers();
+            services.AddDbContext<ApplicationContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("EFCore"),
+            b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
 
             var key = Encoding.ASCII.GetBytes(AppSettings.GetSecretKey());
             services.AddAuthentication(options => 
@@ -103,10 +109,20 @@ namespace SkyDesign.ApiHost
             });
 
             services.AddScoped<IAuthentication, Authentication>();
+
+            #region Dapper
+            services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
+            services.AddScoped<ICatalogRepositoryAsync, CatalogRepositoryAsync>();
+            services.AddScoped<ISubCatalogRepositoryAsync, SubCatalogRepositoryAsync>();
+            services.AddScoped<ISubCatalogDetailRepositoryAsync, SubCatalogDetailRepositoryAsync>();
+            #endregion
+
+            #region EntityFramework Core
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICatalogRepository, CatalogRepository>();
             services.AddScoped<ISubCatalogRepository, SubCatalogRepository>();
             services.AddScoped<ISubCatalogDetailRepository, SubCatalogDetailRepository>();
+            #endregion
         }
 
         /// <summary>
