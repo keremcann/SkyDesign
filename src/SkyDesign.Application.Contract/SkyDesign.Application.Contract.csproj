@@ -13,8 +13,4 @@
     <ProjectReference Include="..\SkyDesign.Core\SkyDesign.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\Catalog\" />
-  </ItemGroup>
-
 </Project>
