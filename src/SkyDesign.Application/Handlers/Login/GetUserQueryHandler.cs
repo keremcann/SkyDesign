@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using SkyDesign.Application.Contract.Queries.Login;
 using SkyDesign.Domain.Repositories;
 using System.Collections.Generic;
@@ -10,14 +11,17 @@ namespace SkyDesign.Application.Handlers.Login
     public class GetUserQueryHandler : IRequestHandler<GetUserQueryRequest, List<GetUserQueryResponse>>
     {
         IUserRepository _userRepository;
+        IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userRepository"></param>
-        public GetUserQueryHandler(IUserRepository userRepository)
+        /// <param name="mapper"></param>
+        public GetUserQueryHandler(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -29,8 +33,8 @@ namespace SkyDesign.Application.Handlers.Login
         public async Task<List<GetUserQueryResponse>> Handle(GetUserQueryRequest request, CancellationToken cancellationToken)
         {
             var users = _userRepository.GetAll();
-
-            return await Task.FromResult(new List<GetUserQueryResponse>());
+            var list = _mapper.Map<List<GetUserQueryResponse>>(users.Value);
+            return await Task.FromResult(list);
         }
     }
 }

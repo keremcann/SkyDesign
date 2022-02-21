@@ -123,6 +123,8 @@ namespace SkyDesign.ApiHost
             services.AddScoped<ISubCatalogRepository, SubCatalogRepository>();
             services.AddScoped<ISubCatalogDetailRepository, SubCatalogDetailRepository>();
             #endregion
+
+            services.AddAutoMapper(typeof(ApplicationAutoMapper));
         }
 
         /// <summary>
