@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SkyDesign.Application.Contract.Commands.Catalog;
-using SkyDesign.Application.Contract.Queries.Catalog;
+using SkyDesign.Application.Contract.Commands.SubCatalog;
+using SkyDesign.Application.Contract.Queries.SubCatalog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +10,7 @@ namespace SkyDesign.ApiHost.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CatalogController : ControllerBase
+    public class SubCatalogController : ControllerBase
     {
         IMediator _mediator;
 
@@ -18,7 +18,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// 
         /// </summary>
         /// <param name="mediator"></param>
-        public CatalogController(IMediator mediator)
+        public SubCatalogController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -29,10 +29,10 @@ namespace SkyDesign.ApiHost.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("createCatalog")]
-        public async Task<IActionResult> CreateCatalog([FromQuery] CreateCatalogCommandRequest request)
+        [HttpPost("createSubCatalog")]
+        public async Task<IActionResult> CreateSubCatalog([FromQuery] CreateSubCatalogCommandRequest request)
         {
-            CreateCatalogCommandResponse response = await _mediator.Send(request);
+            CreateSubCatalogCommandResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -42,10 +42,10 @@ namespace SkyDesign.ApiHost.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("updateCatalog")]
-        public async Task<IActionResult> UpdateCatalog([FromQuery] UpdateCatalogCommandRequest request)
+        [HttpPost("updateSubCatalog")]
+        public async Task<IActionResult> UpdateSubCatalog([FromQuery] UpdateSubCatalogCommandRequest request)
         {
-            UpdateCatalogCommandResponse response = await _mediator.Send(request);
+            UpdateSubCatalogCommandResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -55,10 +55,10 @@ namespace SkyDesign.ApiHost.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("deleteCatalog")]
-        public async Task<IActionResult> DeleteCatalog([FromQuery] DeleteCatalogCommandRequest request)
+        [HttpPost("deleteSubCatalog")]
+        public async Task<IActionResult> DeleteSubCatalog([FromQuery] DeleteSubCatalogCommandRequest request)
         {
-            DeleteCatalogCommandResponse response = await _mediator.Send(request);
+            DeleteSubCatalogCommandResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -68,10 +68,10 @@ namespace SkyDesign.ApiHost.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("getAllCatalog")]
-        public async Task<IActionResult> GetAllCatalog([FromQuery] GetCatalogQueryRequest request)
+        [HttpGet("getAllSubCatalog")]
+        public async Task<IActionResult> GetAllSubCatalog([FromQuery] GetSubCatalogQueryRequest request)
         {
-            List<GetCatalogQueryResponse> response = await _mediator.Send(request);
+            List<GetSubCatalogQueryResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
     }
