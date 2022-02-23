@@ -7,6 +7,7 @@ namespace SkyDesign.Domain.Entities
     public class SubCatalog : BaseType, IEntity
     {
         public int SubCatalogId { get; set; }
+        public int CatalogId { get; set; }
         public string SubCatalogName { get; set; }
         public string CreateUser { get; set; }
         public DateTime CreateDate { get; set; }
