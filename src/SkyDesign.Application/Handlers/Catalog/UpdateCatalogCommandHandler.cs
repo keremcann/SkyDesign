@@ -1,16 +1,13 @@
 ﻿using MediatR;
 using SkyDesign.Application.Contract.Commands.Catalog;
+using SkyDesign.Core.Base;
 using SkyDesign.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkyDesign.Application.Handlers.Catalog
 {
-    public class UpdateCatalogCommandHandler : IRequestHandler<UpdateCatalogCommandRequest, UpdateCatalogCommandResponse>
+    public class UpdateCatalogCommandHandler : IRequestHandler<UpdateCatalogCommandRequest, CommonResponse<UpdateCatalogCommandResponse>>
     {
         ICatalogRepositoryAsync _catalogRepository;
 
@@ -25,9 +22,9 @@ namespace SkyDesign.Application.Handlers.Catalog
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<UpdateCatalogCommandResponse> Handle(UpdateCatalogCommandRequest request, CancellationToken cancellationToken)
+        public async Task<CommonResponse<UpdateCatalogCommandResponse>> Handle(UpdateCatalogCommandRequest request, CancellationToken cancellationToken)
         {
-            var response = new UpdateCatalogCommandResponse();
+            var response = new CommonResponse<UpdateCatalogCommandResponse>();
             var req = new Domain.Entities.Catalog
             {
                 CatalogId = request.CatalogId,

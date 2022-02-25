@@ -1,10 +1,9 @@
-﻿using SkyDesign.Core.Base;
-using System;
+﻿using System;
 
 namespace SkyDesign.Application.Contract.Commands.Catalog
 {
     [Serializable]
-    public class DeleteCatalogCommandResponse : BaseType
+    public class DeleteCatalogCommandResponse
     {
     }
 }

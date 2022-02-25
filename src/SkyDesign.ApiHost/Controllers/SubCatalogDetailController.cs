@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkyDesign.Application.Contract.Commands.SubCatalogDetail;
 using SkyDesign.Application.Contract.Queries.SubCatalogDetail;
+using SkyDesign.Core.Base;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpPost("createSubCatalogDetail")]
         public async Task<IActionResult> CreateSubCatalogDetail([FromQuery] CreateSubCatalogDetailCommandRequest request)
         {
-            CreateSubCatalogDetailCommandResponse response = await _mediator.Send(request);
+            CommonResponse<CreateSubCatalogDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -45,7 +46,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpPost("updateSubCatalogDetail")]
         public async Task<IActionResult> UpdateSubCatalogDetail([FromQuery] UpdateSubCatalogDetailCommandRequest request)
         {
-            UpdateSubCatalogDetailCommandResponse response = await _mediator.Send(request);
+            CommonResponse<UpdateSubCatalogDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -58,7 +59,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpPost("deleteSubCatalogDetail")]
         public async Task<IActionResult> DeleteSubCatalogDetail([FromQuery] DeleteSubCatalogDetailCommandRequest request)
         {
-            DeleteSubCatalogDetailCommandResponse response = await _mediator.Send(request);
+            CommonResponse<DeleteSubCatalogDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 

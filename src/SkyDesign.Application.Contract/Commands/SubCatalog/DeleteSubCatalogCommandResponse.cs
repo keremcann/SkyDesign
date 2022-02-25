@@ -4,7 +4,7 @@ using System;
 namespace SkyDesign.Application.Contract.Commands.SubCatalog
 {
     [Serializable]
-    public class DeleteSubCatalogCommandResponse : BaseType
+    public class DeleteSubCatalogCommandResponse
     {
     }
 }

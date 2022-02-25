@@ -1,10 +1,9 @@
-﻿using SkyDesign.Core.Base;
-using System;
+﻿using System;
 
 namespace SkyDesign.Application.Contract.Commands.SubCatalog
 {
     [Serializable]
-    public class CreateSubCatalogCommandResponse : BaseType
+    public class CreateSubCatalogCommandResponse
     {
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkyDesign.Application.Contract.Commands.Catalog;
 using SkyDesign.Application.Contract.Queries.Catalog;
+using SkyDesign.Core.Base;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpPost("createCatalog")]
         public async Task<IActionResult> CreateCatalog([FromQuery] CreateCatalogCommandRequest request)
         {
-            CreateCatalogCommandResponse response = await _mediator.Send(request);
+            CommonResponse<CreateCatalogCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -45,7 +46,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpPost("updateCatalog")]
         public async Task<IActionResult> UpdateCatalog([FromQuery] UpdateCatalogCommandRequest request)
         {
-            UpdateCatalogCommandResponse response = await _mediator.Send(request);
+            CommonResponse<UpdateCatalogCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -58,7 +59,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpPost("deleteCatalog")]
         public async Task<IActionResult> DeleteCatalog([FromQuery] DeleteCatalogCommandRequest request)
         {
-            DeleteCatalogCommandResponse response = await _mediator.Send(request);
+            CommonResponse<DeleteCatalogCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -71,7 +72,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpGet("getAllCatalog")]
         public async Task<IActionResult> GetAllCatalog([FromQuery] GetCatalogQueryRequest request)
         {
-            List<GetCatalogQueryResponse> response = await _mediator.Send(request);
+            CommonResponse<List<GetCatalogQueryResponse>> response = await _mediator.Send(request);
             return Ok(response);
         }
     }

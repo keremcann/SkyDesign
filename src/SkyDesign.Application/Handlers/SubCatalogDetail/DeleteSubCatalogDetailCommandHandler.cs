@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using SkyDesign.Application.Contract.Commands.SubCatalogDetail;
+using SkyDesign.Core.Base;
 using SkyDesign.Domain.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkyDesign.Application.Handlers.SubCatalogDetail
 {
-    public class DeleteSubCatalogDetailCommandHandler : IRequestHandler<DeleteSubCatalogDetailCommandRequest, DeleteSubCatalogDetailCommandResponse>
+    public class DeleteSubCatalogDetailCommandHandler : IRequestHandler<DeleteSubCatalogDetailCommandRequest, CommonResponse<DeleteSubCatalogDetailCommandResponse>>
     {
         ISubCatalogDetailRepositoryAsync _subCatalogDetailRepository;
         IMapper _mapper;
@@ -29,9 +30,9 @@ namespace SkyDesign.Application.Handlers.SubCatalogDetail
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<DeleteSubCatalogDetailCommandResponse> Handle(DeleteSubCatalogDetailCommandRequest request, CancellationToken cancellationToken)
+        public async Task<CommonResponse<DeleteSubCatalogDetailCommandResponse>> Handle(DeleteSubCatalogDetailCommandRequest request, CancellationToken cancellationToken)
         {
-            var response = new DeleteSubCatalogDetailCommandResponse();
+            var response = new CommonResponse<DeleteSubCatalogDetailCommandResponse>();
             var req = _mapper.Map<Domain.Entities.SubCatalogDetail>(request);
             var catalogs = _subCatalogDetailRepository.AddAsync(req);
 

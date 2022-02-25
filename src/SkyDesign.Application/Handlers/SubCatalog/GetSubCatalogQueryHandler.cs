@@ -19,9 +19,10 @@ namespace SkyDesign.Application.Handlers.SubCatalog
         /// </summary>
         /// <param name="_subCatalogRepository"></param>
         /// <param name="_mapper"></param>
-        public GetSubCatalogQueryHandler(ISubCatalogRepositoryAsync _subCatalogRepository, IMapper _mapper)
+        public GetSubCatalogQueryHandler(ISubCatalogRepositoryAsync subCatalogRepository, IMapper mapper)
         {
-
+            _subCatalogRepository = subCatalogRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
