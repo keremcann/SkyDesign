@@ -72,7 +72,7 @@ namespace SkyDesign.ApiHost.Controllers
         [HttpGet("getAllSubCatalog")]
         public async Task<IActionResult> GetAllSubCatalog([FromQuery] GetSubCatalogQueryRequest request)
         {
-            List<GetSubCatalogQueryResponse> response = await _mediator.Send(request);
+            CommonResponse<List<GetSubCatalogQueryResponse>> response = await _mediator.Send(request);
             return Ok(response);
         }
     }

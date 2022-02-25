@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SkyDesign.Application.Handlers.SubCatalog
 {
-    public class GetSubCatalogQueryHandler : IRequestHandler<GetSubCatalogQueryRequest, List<GetSubCatalogQueryResponse>>
+    public class GetSubCatalogQueryHandler : IRequestHandler<GetSubCatalogQueryRequest, CommonResponse<List<GetSubCatalogQueryResponse>>>
     {
         ISubCatalogRepositoryAsync _subCatalogRepository;
         IMapper _mapper;
@@ -31,13 +31,14 @@ namespace SkyDesign.Application.Handlers.SubCatalog
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<List<GetSubCatalogQueryResponse>> Handle(GetSubCatalogQueryRequest request, CancellationToken cancellationToken)
+        public async Task<CommonResponse<List<GetSubCatalogQueryResponse>>> Handle(GetSubCatalogQueryRequest request, CancellationToken cancellationToken)
         {
             var response = new CommonResponse<List<GetSubCatalogQueryResponse>>();
 
             var subcatalogs = _subCatalogRepository.GetAllAsync();
             var list = _mapper.Map<List<GetSubCatalogQueryResponse>>(subcatalogs.Result.Value);
-            return await Task.FromResult(list);
+            response.Value = list;
+            return await Task.FromResult(response);
         }
     }
 }
