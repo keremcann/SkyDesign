@@ -7,6 +7,8 @@ using SkyDesign.Application.Contract.Queries.SubCatalog;
 using SkyDesign.Application.Contract.Queries.SubCatalogDetail;
 using SkyDesign.Application.Contract.Queries.Login;
 using SkyDesign.Domain.Entities;
+using SkyDesign.Application.Contract.Queries.Role;
+using SkyDesign.Application.Contract.Queries.Page;
 
 namespace SkyDesign.Application
 {
@@ -15,6 +17,8 @@ namespace SkyDesign.Application
         public ApplicationAutoMapper()
         {
             CreateMap<User, GetUserQueryResponse>();
+            CreateMap<Role, GetRoleQueryResponse>();
+            CreateMap<Page, GetPageQueryResponse>();
             CreateMap<Catalog, GetCatalogQueryResponse>();
             CreateMap<SubCatalog, GetSubCatalogQueryResponse>();
             CreateMap<CreateSubCatalogCommandRequest, SubCatalog>();

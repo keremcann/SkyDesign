@@ -112,6 +112,8 @@ namespace SkyDesign.ApiHost
 
             #region Dapper
             services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
+            services.AddScoped<IPageRepositoryAsync, PageRepositoryAsync>();
+            services.AddScoped<IRoleRepositoryAsync, RoleRepositoryAsync>();
             services.AddScoped<ICatalogRepositoryAsync, CatalogRepositoryAsync>();
             services.AddScoped<ISubCatalogRepositoryAsync, SubCatalogRepositoryAsync>();
             services.AddScoped<ISubCatalogDetailRepositoryAsync, SubCatalogDetailRepositoryAsync>();
@@ -119,6 +121,8 @@ namespace SkyDesign.ApiHost
 
             #region EntityFramework Core
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ICatalogRepository, CatalogRepository>();
             services.AddScoped<ISubCatalogRepository, SubCatalogRepository>();
             services.AddScoped<ISubCatalogDetailRepository, SubCatalogDetailRepository>();
