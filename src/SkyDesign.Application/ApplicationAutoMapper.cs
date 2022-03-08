@@ -28,6 +28,8 @@ namespace SkyDesign.Application
             CreateMap<CreateSubCatalogDetailCommandRequest, SubCatalogDetail>();
             CreateMap<UpdateSubCatalogDetailCommandRequest, SubCatalogDetail>();
             CreateMap<DeleteSubCatalogDetailCommandRequest, SubCatalogDetail>();
+
+            CreateMap<Catalog, GetCatalogQueryResponse>();
         }
     }
 }

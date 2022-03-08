@@ -41,7 +41,7 @@ namespace SkyDesign.Application.Handlers.Login
             if (user == null)
                 return new GetLoginQueryResponse { Success = false, ErrorMessage = "Kullanıcı bulunamadı!" };
             
-            var result = await _authentication.Authenticate(user.Result.Value.UserName, user.Result.Value.Password, "Admin");
+            var result = await _authentication.Authenticate(request.UserName, request.Password, "Admin");
             if (!result.Success)
             {
                 response.Success = result.Success;

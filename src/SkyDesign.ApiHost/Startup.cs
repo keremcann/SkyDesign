@@ -14,6 +14,7 @@ using SkyDesign.Dapper;
 using SkyDesign.Domain.Repositories;
 using SkyDesign.EntityFrameworkCore.Business;
 using SkyDesign.EntityFrameworkCore.Context;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace SkyDesign.ApiHost
@@ -129,6 +130,14 @@ namespace SkyDesign.ApiHost
             #endregion
 
             services.AddAutoMapper(typeof(ApplicationAutoMapper));
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("default", policy =>
+                {
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                });
+            });
         }
 
         /// <summary>
@@ -148,6 +157,8 @@ namespace SkyDesign.ApiHost
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("default");
 
             app.UseAuthentication();
             app.UseAuthorization();
