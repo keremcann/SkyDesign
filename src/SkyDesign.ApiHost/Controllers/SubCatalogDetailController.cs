@@ -56,7 +56,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("deleteSubCatalogDetail")]
+        [HttpDelete("deleteSubCatalogDetail")]
         public async Task<IActionResult> DeleteSubCatalogDetail([FromQuery] DeleteSubCatalogDetailCommandRequest request)
         {
             CommonResponse<DeleteSubCatalogDetailCommandResponse> response = await _mediator.Send(request);

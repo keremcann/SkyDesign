@@ -34,7 +34,7 @@ namespace SkyDesign.Application.Handlers.SubCatalogDetail
         {
             var response = new CommonResponse<DeleteSubCatalogDetailCommandResponse>();
             var req = _mapper.Map<Domain.Entities.SubCatalogDetail>(request);
-            var catalogs = _subCatalogDetailRepository.AddAsync(req);
+            var catalogs = _subCatalogDetailRepository.DeleteAsync(req);
 
             if (!catalogs.Result.Success)
             {
