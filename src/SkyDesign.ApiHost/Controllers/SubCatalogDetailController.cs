@@ -31,7 +31,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("createSubCatalogDetail")]
-        public async Task<IActionResult> CreateSubCatalogDetail([FromQuery] CreateSubCatalogDetailCommandRequest request)
+        public async Task<IActionResult> CreateSubCatalogDetail([FromBody] CreateSubCatalogDetailCommandRequest request)
         {
             CommonResponse<CreateSubCatalogDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
@@ -44,7 +44,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("updateSubCatalogDetail")]
-        public async Task<IActionResult> UpdateSubCatalogDetail([FromQuery] UpdateSubCatalogDetailCommandRequest request)
+        public async Task<IActionResult> UpdateSubCatalogDetail([FromBody] UpdateSubCatalogDetailCommandRequest request)
         {
             CommonResponse<UpdateSubCatalogDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);

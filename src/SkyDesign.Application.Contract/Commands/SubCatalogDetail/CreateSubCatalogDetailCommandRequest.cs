@@ -11,6 +11,8 @@ namespace SkyDesign.Application.Contract.Commands.SubCatalogDetail
         public string CatalogName { get; set; }
         public string CreateUser { get; set; }
         public string Name { get; set; }
+        public string Type { get; set; }
+        public string Status { get; set; }
         public string Description { get; set; }
 
     }

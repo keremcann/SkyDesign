@@ -22,7 +22,7 @@ namespace SkyDesign.Dapper
         {
             string query = String.Format(
                 @"insert into SubCatalogDetail (SubCatalogId, Name, [Description], [Type], [Status], CreateUser, CreateDate, IsActive)
-					                    values (@SubCatalogId, @Name, @Description, 'Sample type', 'Sample status', 'krmcn', @Date, 1)");
+					                    values (@SubCatalogId, @Name, @Description, @Type, @Status, 'krmcn', @Date, 1)");
             var data = new CommonResponse<SubCatalogDetail>();
             data.Value = new SubCatalogDetail();
             if (!connection.Success)
@@ -39,7 +39,9 @@ namespace SkyDesign.Dapper
                     SubCatalogId = request.SubCatalogId,
                     Name = request.Name,
                     Description = request.Description,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    Type = request.Type,
+                    Status = request.Status
                 }, commandType: CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
                 connection.db.Close();
@@ -230,7 +232,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<SubCatalogDetail>> UpdateAsync(SubCatalogDetail request)
         {
-            string query = String.Format(@"update SubCatalogDetail set SubCatalogId = @SubCatalogId, Name = @Name, Description = @Description where SubCatalogDetailId = @SubCatalogDetailId");
+            string query = String.Format(@"update SubCatalogDetail set Name = @Name, Description = @Description, Status = @Status, Type = @Type where SubCatalogDetailId = @SubCatalogDetailId");
             var data = new CommonResponse<SubCatalogDetail>();
             data.Value = new SubCatalogDetail();
             if (!connection.Success)
@@ -244,9 +246,10 @@ namespace SkyDesign.Dapper
             {
                 data.Value = connection.db.QueryAsync<SubCatalogDetail>(query, new
                 {
-                    SubCatalogId = request.SubCatalogId,
                     Name = request.Name,
                     Description = request.Description,
+                    Status = request.Status,
+                    Type = request.Type,
                     SubCatalogDetailId = request.SubCatalogDetailId,
 
                 }, commandType: CommandType.Text).Result.FirstOrDefault();
