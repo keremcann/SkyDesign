@@ -6,8 +6,8 @@ using System.Collections.Generic;
 namespace SkyDesign.Application.Contract.Queries.SubCatalogDetail
 {
     [Serializable]
-    public class GetSubCatalogDetailQueryRequest : IRequest<CommonResponse<List<GetSubCatalogDetailQueryResponse>>>
+    public class GetSubCatalogDetailBySubCatalogIdQueryRequest : IRequest<CommonResponse<List<GetSubCatalogDetailBySubCatalogIdQueryResponse>>>
     {
-        public int SubCatalogDetailId { get; set; }
+        public int SubCatalogId { get; set; }
     }
 }
