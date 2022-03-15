@@ -29,7 +29,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("generateToken")]
-        public async Task<IActionResult> GenerateToken([FromQuery] GetLoginQueryRequest request)
+        public async Task<IActionResult> GenerateToken([FromBody] GetLoginQueryRequest request)
         {
             GetLoginQueryResponse response = await _mediator.Send(request);
             return Ok(response);

@@ -7,5 +7,6 @@ namespace SkyDesign.Application.Contract.Queries.Login
     public class GetLoginQueryResponse : BaseType
     {
         public string Token { get; set; }
+        public string FullName { get; set; }
     }
 }

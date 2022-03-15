@@ -25,13 +25,13 @@ namespace SkyDesign.Dapper
             var data = new CommonResponse<User>();
             data.Value = new User();
 
-            if (!connection.Success) 
+            if (!connection.Success)
             {
                 data.Success = false;
                 data.ErrorMessage = connection.ErrorMessage;
                 return await Task.FromResult(data);
             }
-                
+
             try
             {
                 data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
@@ -107,7 +107,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<User>> GetItemAsync(User request)
         {
-            string query = String.Format("SELECT * FROM [dbo].[User] WHERE UserName='{0}' AND Password='{1}'", request.UserName, request.Password);
+            string query = String.Format("SELECT * FROM [dbo].[User] WHERE UserName=@UserName AND Password=@Password");
             var data = new CommonResponse<User>();
             data.Value = new User();
 
@@ -120,8 +120,22 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
-                data.Success = true;
+                data.Value = connection.db.QueryAsync<User>(query, new
+                {
+                    request.UserName,
+                    request.Password
+                }, commandType: CommandType.Text).Result.FirstOrDefault();
+
+                if (data.Value != null)
+                {
+                    data.Success = true;
+                    data.InfoMessage = "Kullanıcı bulundu";
+                }
+                else
+                {
+                    data.Success = false;
+                    data.ErrorMessage = "Kullanıcı bulunamadı";
+                }
                 connection.db.Close();
                 return await Task.FromResult(data);
             }

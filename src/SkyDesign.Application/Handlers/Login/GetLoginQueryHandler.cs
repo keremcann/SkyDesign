@@ -40,7 +40,7 @@ namespace SkyDesign.Application.Handlers.Login
 
             if (user == null)
                 return new GetLoginQueryResponse { Success = false, ErrorMessage = "Kullanıcı bulunamadı!" };
-            
+
             var result = await _authentication.Authenticate(request.UserName, request.Password, "Admin");
             if (!result.Success)
             {
@@ -52,6 +52,7 @@ namespace SkyDesign.Application.Handlers.Login
             response.Success = result.Success;
             response.InfoMessage = "";
             response.Token = result.Value;
+            response.FullName = user.Result.Value.FullName;
             return await Task.FromResult(response);
         }
     }
