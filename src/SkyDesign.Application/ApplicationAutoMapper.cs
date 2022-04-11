@@ -9,6 +9,7 @@ using SkyDesign.Application.Contract.Queries.Login;
 using SkyDesign.Domain.Entities;
 using SkyDesign.Application.Contract.Queries.Role;
 using SkyDesign.Application.Contract.Queries.Page;
+using SkyDesign.Application.Contract.Queries.Diagram;
 
 namespace SkyDesign.Application
 {
@@ -31,6 +32,9 @@ namespace SkyDesign.Application
 
             CreateMap<Catalog, GetCatalogQueryResponse>();
             CreateMap<SubCatalogDetail, GetSubCatalogDetailBySubCatalogIdQueryResponse>();
+
+            CreateMap<Diagram, GetDiagramQueryResponse>();
+            CreateMap<GetDiagramQueryResponse, Diagram>();
         }
     }
 }
