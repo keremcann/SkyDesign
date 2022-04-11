@@ -75,5 +75,18 @@ namespace SkyDesign.ApiHost.Controllers
             CommonResponse<List<GetDiagramQueryResponse>> response = await _mediator.Send(request);
             return Ok(response);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("getAllDiagramByPageId")]
+        public async Task<IActionResult> getAllDiagramByPageId([FromQuery] GetAllByPageIdQueryRequest request)
+        {
+            CommonResponse<List<GetAllByPageIdQueryResponse>> response = await _mediator.Send(request);
+            return Ok(response);
+        }
     }
 }
