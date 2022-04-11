@@ -118,6 +118,7 @@ namespace SkyDesign.ApiHost
             services.AddScoped<ICatalogRepositoryAsync, CatalogRepositoryAsync>();
             services.AddScoped<ISubCatalogRepositoryAsync, SubCatalogRepositoryAsync>();
             services.AddScoped<ISubCatalogDetailRepositoryAsync, SubCatalogDetailRepositoryAsync>();
+            services.AddScoped<IDiagramRepositoryAsync, DiagramRepositoryAsync>();
             #endregion
 
             #region EntityFramework Core

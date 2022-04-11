@@ -31,7 +31,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("createPage")]
-        public async Task<IActionResult> CreatePage([FromQuery] CreatePageCommandRequest request)
+        public async Task<IActionResult> CreatePage([FromBody] CreatePageCommandRequest request)
         {
             CommonResponse<CreatePageCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
@@ -44,7 +44,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("updatePage")]
-        public async Task<IActionResult> UpdatePage([FromQuery] UpdatePageCommandRequest request)
+        public async Task<IActionResult> UpdatePage([FromBody] UpdatePageCommandRequest request)
         {
             CommonResponse<UpdatePageCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
