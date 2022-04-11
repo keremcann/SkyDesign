@@ -30,13 +30,14 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Diagram>("insert into Diagram(PageId, Nodes, Edges, Name, CreateUser) VALUES(@PageId, Nodes, Edges, Name, CreateUser)", new
+                data.Value = connection.db.QueryAsync<Diagram>("INSERT INTO Diagram(PageId, Nodes, Edges, Name, CreateUser, CreateDate) VALUES(@PageId, @Nodes, @Edges, @Name, @CreateUser, @CreateDate)", new
                 {
                     PageId = request.PageId,
                     Nodes = request.Nodes,
                     Edges = request.Edges,
                     Name = request.Name,
-                    CreateUser = "krmcn"
+                    CreateUser = "krmcn",
+                    CreateDate = DateTime.Now
                 }, commandType: CommandType.Text).Result.FirstOrDefault();
 
                 data.Success = true;
@@ -64,10 +65,11 @@ namespace SkyDesign.Dapper
 
             if (!connection.Success)
             {
-                data.Value = connection.db.QueryAsync<Diagram>("update diagram set DeleteUser=@DeleteUser, DeleteDate=@DeleteDate, IsActive=@IsActive, where DiagramId=@DiagramId", new Diagram
+                data.Value = connection.db.QueryAsync<Diagram>("UPDATE Diagram SET DeleteUser=@DeleteUser, DeleteDate=@DeleteDate, IsActive=@IsActive, where DiagramId=@DiagramId", new Diagram
                 {
                     DiagramId = request.DiagramId,
                     DeleteUser = "krmcn",
+                    DeleteDate = DateTime.Now,
                     IsActive = false
                 }, commandType: CommandType.Text).Result.FirstOrDefault();
                 data.Success = false;
@@ -106,7 +108,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<List<Diagram>>("select * from diagram", commandType: CommandType.Text).Result.FirstOrDefault();
+                data.Value = connection.db.QueryAsync<List<Diagram>>("SELECT * FROM Diagram WHERE IsActive = 1", commandType: CommandType.Text).Result.FirstOrDefault();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -119,6 +121,38 @@ namespace SkyDesign.Dapper
                 return await Task.FromResult(data);
             }
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageId"></param>
+        /// <returns></returns>
+        public async Task<CommonResponse<List<Diagram>>> GetAllByPageIdAsync(int pageId)
+        {
+
+            var data = new CommonResponse<List<Diagram>>();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<List<Diagram>>("SELECT * FROM Diagram WHERE PageId=@PageId and IsActive = 1", new { PageId = pageId }, commandType: CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
         }
 
         /// <summary>
@@ -158,8 +192,9 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Diagram>("update diagram set PageId=@PageId, Name=@Name, Nodes=@Nodes, Edges=@Edges, RoteUrl=@RoteUrl, UpdateUser=@UpdateUser, UpdateDate=@UpdateDate", new
+                data.Value = connection.db.QueryAsync<Diagram>("UPDATE Diagram SET PageId=@PageId, Name=@Name, Nodes=@Nodes, Edges=@Edges, RoteUrl=@RoteUrl, UpdateUser=@UpdateUser, UpdateDate=@UpdateDate WHERE DiagramId=@DiagramId", new
                 {
+                    DiagramId = request.DiagramId,
                     PageId = request.PageId,
                     Name = request.Name,
                     Nodes = request.Nodes,
@@ -168,6 +203,7 @@ namespace SkyDesign.Dapper
                     UpdateUser = "krmcn",
                     UpdateDate = DateTime.Now
                 }, commandType: CommandType.Text).Result.FirstOrDefault();
+
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
