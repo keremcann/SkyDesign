@@ -14,7 +14,7 @@ namespace SkyDesign.ApiHost.Controllers
     public class PageController : ControllerBase
     {
         IMediator _mediator;
-
+            
         /// <summary>
         /// 
         /// </summary>
