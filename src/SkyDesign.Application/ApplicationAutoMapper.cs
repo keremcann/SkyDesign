@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SkyDesign.Application.Contract.Commands.Catalog;
 using SkyDesign.Application.Contract.Commands.SubCatalog;
 using SkyDesign.Application.Contract.Commands.SubCatalogDetail;
 using SkyDesign.Application.Contract.Queries.Catalog;
@@ -17,24 +16,40 @@ namespace SkyDesign.Application
     {
         public ApplicationAutoMapper()
         {
-            CreateMap<User, GetUserQueryResponse>();
-            CreateMap<Role, GetRoleQueryResponse>();
-            CreateMap<Page, GetPageQueryResponse>();
-            CreateMap<Catalog, GetCatalogQueryResponse>();
-            CreateMap<SubCatalog, GetSubCatalogQueryResponse>();
-            CreateMap<CreateSubCatalogCommandRequest, SubCatalog>();
-            CreateMap<UpdateSubCatalogCommandRequest, SubCatalog>();
-            CreateMap<DeleteSubCatalogCommandRequest, SubCatalog>();
-            CreateMap<SubCatalogDetail, GetSubCatalogDetailQueryResponse>();
-            CreateMap<CreateSubCatalogDetailCommandRequest, SubCatalogDetail>();
-            CreateMap<UpdateSubCatalogDetailCommandRequest, SubCatalogDetail>();
-            CreateMap<DeleteSubCatalogDetailCommandRequest, SubCatalogDetail>();
+            #region User
+            CreateMap<User, GetUserQueryResponse>().ReverseMap();
+            #endregion
 
-            CreateMap<Catalog, GetCatalogQueryResponse>();
-            CreateMap<SubCatalogDetail, GetSubCatalogDetailBySubCatalogIdQueryResponse>();
+            #region Role
+            CreateMap<Role, GetRoleQueryResponse>().ReverseMap();
+            #endregion
 
-            CreateMap<Diagram, GetDiagramQueryResponse>();
-            CreateMap<GetDiagramQueryResponse, Diagram>();
+            #region Page
+            CreateMap<Page, GetPageQueryResponse>().ReverseMap();
+            #endregion
+
+            #region Catalog
+            CreateMap<Catalog, GetCatalogQueryResponse>().ReverseMap();
+            #endregion
+
+            #region SubCatalog
+            CreateMap<SubCatalog, GetSubCatalogQueryResponse>().ReverseMap();
+            CreateMap<SubCatalog, CreateSubCatalogCommandRequest>();
+            CreateMap<SubCatalog, UpdateSubCatalogCommandRequest>();
+            CreateMap<SubCatalog, DeleteSubCatalogCommandRequest>();
+            #endregion
+
+            #region SubCatalogDetail
+            CreateMap<SubCatalogDetail, GetSubCatalogDetailQueryResponse>().ReverseMap();
+            CreateMap<SubCatalogDetail, CreateSubCatalogDetailCommandRequest>().ReverseMap();
+            CreateMap<SubCatalogDetail, UpdateSubCatalogDetailCommandRequest>().ReverseMap();
+            CreateMap<SubCatalogDetail, DeleteSubCatalogDetailCommandRequest>().ReverseMap();
+            CreateMap<SubCatalogDetail, GetSubCatalogDetailBySubCatalogIdQueryResponse>().ReverseMap();
+            #endregion
+
+            #region Diagram
+            CreateMap<Diagram, GetDiagramQueryResponse>().ReverseMap();
+            #endregion
         }
     }
 }

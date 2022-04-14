@@ -8,6 +8,7 @@ namespace SkyDesign.Domain.Entities
     public class Page : BaseType, IEntity
     {
         public int PageId { get; set; }
+        public int ParentId { get; set; }
         [NotMapped]
         public int RoleId { get; set; }
         public string PageName { get; set; }
