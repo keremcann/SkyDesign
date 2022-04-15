@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkyDesign.Domain.Dtos
+namespace SkyDesign.Domain.Entities
 {
-    public class ColumnInfo<TData>
-    {
-        public List<ColumnDefinition> ColumnList { get; set; }
-        public IEnumerable<TData> Data { get; set; }
-    }
-
     public class ColumnDefinition
     {
         public string TableSchema { get; set; }

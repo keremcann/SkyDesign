@@ -13,10 +13,11 @@ namespace SkyDesign.Application.Handlers.Page
 {
     public class GetPageDetailQueryHandler : IRequestHandler<GetPageDetailQueryRequest, CommonResponse<GetPageDetailQueryResponse>>
     {
-        IPageRepositoryAsync _pageRepositoryAsync;
-        public GetPageDetailQueryHandler(IPageRepositoryAsync pageRepositoryAsync)
+        IPageContentRepositoryAsync _pageContentRepositoryAsync;
+
+        public GetPageDetailQueryHandler(IPageContentRepositoryAsync pageContentRepositoryAsync)
         {
-            _pageRepositoryAsync = pageRepositoryAsync;
+            _pageContentRepositoryAsync = pageContentRepositoryAsync;
         }
 
         public async Task<CommonResponse<GetPageDetailQueryResponse>> Handle(GetPageDetailQueryRequest request, CancellationToken cancellationToken)
@@ -27,7 +28,7 @@ namespace SkyDesign.Application.Handlers.Page
             else if (!string.IsNullOrWhiteSpace(request.Level2Menu)) selectedPage = request.Level2Menu;
             else if (!string.IsNullOrWhiteSpace(request.Level1Menu)) selectedPage = request.Level1Menu;
 
-            var result = await _pageRepositoryAsync.GetPageDetail(selectedPage);
+            var result = await _pageContentRepositoryAsync.GetPageDetail(selectedPage);
 
             return await Task.FromResult(new CommonResponse<GetPageDetailQueryResponse>
             {

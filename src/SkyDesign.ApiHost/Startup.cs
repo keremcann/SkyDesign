@@ -11,6 +11,7 @@ using SkyDesign.Application;
 using SkyDesign.Core.Auth;
 using SkyDesign.Core.Configuration;
 using SkyDesign.Dapper;
+using SkyDesign.Dapper.PageBase;
 using SkyDesign.Domain.Repositories;
 using SkyDesign.EntityFrameworkCore.Business;
 using SkyDesign.EntityFrameworkCore.Context;
@@ -119,6 +120,8 @@ namespace SkyDesign.ApiHost
             services.AddScoped<ISubCatalogRepositoryAsync, SubCatalogRepositoryAsync>();
             services.AddScoped<ISubCatalogDetailRepositoryAsync, SubCatalogDetailRepositoryAsync>();
             services.AddScoped<IDiagramRepositoryAsync, DiagramRepositoryAsync>();
+
+            services.AddScoped<IPageContentRepositoryAsync, PageContentRepositoryAsync>();
             #endregion
 
             #region EntityFramework Core
