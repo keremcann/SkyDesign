@@ -219,9 +219,9 @@ namespace SkyDesign.Dapper
                 var tableName = connection.db.QueryAsync<string>("select TableName from Page where PageUrl = @PageUrl", new
                 {
                     PageUrl = pageUrl
-                }, commandType: CommandType.Text).Result.FirstOrDefault();
+                }, commandType: CommandType.Text).Result.FirstOrDefault().ToString();
 
-                var tableData = connection.db.QueryAsync<object>($"select * from [dbo].{tableName}", commandType: CommandType.Text).Result.ToList();
+                var tableData = connection.db.QueryAsync<dynamic>($"select * from {tableName}", commandType: CommandType.Text).Result.ToList();
 
                 var tableColumnList = connection.db.QueryAsync<ColumnDefinition>($@"SELECT TABLE_SCHEMA TableSchema, TABLE_NAME TableName, COLUMN_NAME ColumnName, DATA_TYPE DataType
 FROM INFORMATION_SCHEMA.COLUMNS

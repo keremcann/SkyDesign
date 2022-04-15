@@ -9,7 +9,7 @@ namespace SkyDesign.Domain.Dtos
     public class ColumnInfo<TData>
     {
         public List<ColumnDefinition> ColumnList { get; set; }
-        public List<TData> Data { get; set; }
+        public IEnumerable<TData> Data { get; set; }
     }
 
     public class ColumnDefinition
