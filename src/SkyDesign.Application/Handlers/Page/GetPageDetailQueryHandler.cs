@@ -2,10 +2,6 @@
 using SkyDesign.Application.Contract.Queries.Page;
 using SkyDesign.Core.Base;
 using SkyDesign.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,11 +11,21 @@ namespace SkyDesign.Application.Handlers.Page
     {
         IPageContentRepositoryAsync _pageContentRepositoryAsync;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageContentRepositoryAsync"></param>
         public GetPageDetailQueryHandler(IPageContentRepositoryAsync pageContentRepositoryAsync)
         {
             _pageContentRepositoryAsync = pageContentRepositoryAsync;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<CommonResponse<GetPageDetailQueryResponse>> Handle(GetPageDetailQueryRequest request, CancellationToken cancellationToken)
         {
 
@@ -34,10 +40,10 @@ namespace SkyDesign.Application.Handlers.Page
             {
                 Value = new GetPageDetailQueryResponse
                 {
-                    Result = result
+                    Result = result.Value
                 },
-                Success = true,
-                InfoMessage = "Successful"
+                Success = result.Success,
+                InfoMessage = result.InfoMessage
             });
         }
     }
