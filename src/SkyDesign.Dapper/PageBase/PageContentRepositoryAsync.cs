@@ -22,13 +22,13 @@ namespace SkyDesign.Dapper.PageBase
             var data = new CommonResponse<ColumnInfo<object>>();
             try
             {
-                string tableQuery = "select TableName from [dbo].Page where PageUrl = @PageUrl";
+                string tableQuery = "SELECT TableName FROM [dbo].[Page] WHERE PageUrl = @PageUrl";
                 var tableName = connection.db.QueryAsync<string>(tableQuery, new
                 {
                     PageUrl = pageUrl
                 }, commandType: CommandType.Text).Result.FirstOrDefault().ToString();
 
-                string dataQuery = $"select * from [dbo].[{tableName}]";
+                string dataQuery = $"SELECT * FROM [dbo].[{tableName}]";
                 var tableData = connection.db.QueryAsync<dynamic>(dataQuery, commandType: CommandType.Text).Result.ToList();
                 string columnQuery = $@"SELECT TABLE_SCHEMA TableSchema, TABLE_NAME TableName, COLUMN_NAME ColumnName, DATA_TYPE DataType
                                      FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @TableName";
