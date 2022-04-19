@@ -9,6 +9,8 @@ using SkyDesign.Domain.Entities;
 using SkyDesign.Application.Contract.Queries.Role;
 using SkyDesign.Application.Contract.Queries.Page;
 using SkyDesign.Application.Contract.Queries.Diagram;
+using SkyDesign.Application.Contract.Commands.Page;
+using SkyDesign.Domain.BaseTypes;
 
 namespace SkyDesign.Application
 {
@@ -26,6 +28,7 @@ namespace SkyDesign.Application
 
             #region Page
             CreateMap<Page, GetPageQueryResponse>().ReverseMap();
+            CreateMap<AddPageDetailCommandRequest, CatalogContent>().ReverseMap();
             #endregion
 
             #region Catalog

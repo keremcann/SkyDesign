@@ -82,5 +82,12 @@ namespace SkyDesign.ApiHost.Controllers
             CommonResponse<GetPageDetailQueryResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
+
+        [HttpPost("addPageDetail")]
+        public async Task<IActionResult> AddPageDetail([FromBody] AddPageDetailCommandRequest request)
+        {
+            CommonResponse<AddPageDetailCommandResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
     }
 }
