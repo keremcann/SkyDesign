@@ -10,6 +10,6 @@ namespace SkyDesign.Domain.Repositories
     {
         Task<CommonResponse<ColumnInfo<object>>> GetPageDetail(string pageUrl);
         Task<CommonResponse<object>> AddPageDetail(CatalogContent catalogContent);
-
+        Task<CommonResponse<object>> UpdatePageDetail(CatalogContent catalogContent);
     }
 }
