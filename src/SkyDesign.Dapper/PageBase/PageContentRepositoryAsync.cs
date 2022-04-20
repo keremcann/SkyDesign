@@ -84,10 +84,9 @@ namespace SkyDesign.Dapper.PageBase
         /// </summary>
         /// <param name="catalogContent"></param>
         /// <returns></returns>
-        public async Task<CommonResponse<object>> DeletePageDetail(CatalogContent catalogContent)
+        public async Task<CommonResponse<object>> DeletePageDetail(string tableName, int id)
         {
             var data = new CommonResponse<object>();
-            string query = $"DELETE FROM [dbo].[{catalogContent.TableName}] WHERE {catalogContent.TableName}Id = {catalogContent.Items[0].PropertyValue}";
             if (!connection.Success)
             {
                 data.Success = false;
@@ -96,14 +95,7 @@ namespace SkyDesign.Dapper.PageBase
             }
             try
             {
-                IList<KeyValuePair<string, object>> propertyValues = new List<KeyValuePair<string, object>>();
-
-                catalogContent.Items.ForEach(item =>
-                {
-                    propertyValues.Add(new KeyValuePair<string, object>(item.PropertyName, item.PropertyValue));
-                });
-
-                await connection.db.ExecuteAsync(query, propertyValues);
+                await connection.db.ExecuteAsync($"DELETE FROM [dbo].[{tableName}] WHERE {tableName}Id = {id}");
 
                 data.Success = true;
                 data.InfoMessage = "Successfull";

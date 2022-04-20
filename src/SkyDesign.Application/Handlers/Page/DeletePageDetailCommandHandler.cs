@@ -33,15 +33,7 @@ namespace SkyDesign.Application.Handlers.Page
         /// <returns></returns>
         public async Task<CommonResponse<DeletePageDetailCommandResponse>> Handle(DeletePageDetailCommandRequest request, CancellationToken cancellationToken)
         {
-            var result = await _pageContentRepositoryAsync.DeletePageDetail(new CatalogContent
-            {
-                TableName = request.TableName,
-                Items = request.Items.Select(x => new CatalogContentItem
-                {
-                    PropertyName = x.PropertyName,
-                    PropertyValue = x.PropertyValue
-                }).ToList()
-            });
+            var result = await _pageContentRepositoryAsync.DeletePageDetail(request.TableName, request.Id);
 
             return await Task.FromResult(new CommonResponse<DeletePageDetailCommandResponse>
             {

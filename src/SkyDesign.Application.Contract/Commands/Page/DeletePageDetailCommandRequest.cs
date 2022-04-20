@@ -9,6 +9,6 @@ namespace SkyDesign.Application.Contract.Commands.Page
     public class DeletePageDetailCommandRequest : IRequest<CommonResponse<DeletePageDetailCommandResponse>>
     {
         public string TableName { get; set; }
-        public List<PageContentType> Items { get; set; }
+        public int Id { get; set; }
     }
 }

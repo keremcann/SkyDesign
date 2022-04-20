@@ -33,6 +33,6 @@ namespace SkyDesign.Domain.Repositories
         /// </summary>
         /// <param name="catalogContent"></param>
         /// <returns></returns>
-        Task<CommonResponse<object>> DeletePageDetail(CatalogContent catalogContent);
+        Task<CommonResponse<object>> DeletePageDetail(string tableName, int id);
     }
 }

@@ -105,7 +105,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("updatePageDetail")]
+        [HttpPut("updatePageDetail")]
         public async Task<IActionResult> UpdatePageDetail([FromBody] UpdatePageDetailCommandRequest request)
         {
             CommonResponse<UpdatePageDetailCommandResponse> response = await _mediator.Send(request);
@@ -117,8 +117,8 @@ namespace SkyDesign.ApiHost.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("deletePageDetail")]
-        public async Task<IActionResult> DeletePageDetail([FromBody] DeletePageDetailCommandRequest request)
+        [HttpDelete("deletePageDetail")]
+        public async Task<IActionResult> DeletePageDetail([FromQuery] DeletePageDetailCommandRequest request)
         {
             CommonResponse<DeletePageDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
