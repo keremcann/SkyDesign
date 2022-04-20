@@ -31,7 +31,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("createRole")]
-        public async Task<IActionResult> CreateRole([FromQuery] CreateRoleCommandRequest request)
+        public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommandRequest request)
         {
             CommonResponse<CreateRoleCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
@@ -44,7 +44,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("updateRole")]
-        public async Task<IActionResult> UpdateRole([FromQuery] UpdateRoleCommandRequest request)
+        public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleCommandRequest request)
         {
             CommonResponse<UpdateRoleCommandResponse> response = await _mediator.Send(request);
             return Ok(response);

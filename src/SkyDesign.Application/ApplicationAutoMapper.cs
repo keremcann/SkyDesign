@@ -11,6 +11,7 @@ using SkyDesign.Application.Contract.Queries.Page;
 using SkyDesign.Application.Contract.Queries.Diagram;
 using SkyDesign.Application.Contract.Commands.Page;
 using SkyDesign.Domain.CatalogBaseTypes;
+using SkyDesign.Application.Contract.Commands.Role;
 
 namespace SkyDesign.Application
 {
@@ -24,6 +25,9 @@ namespace SkyDesign.Application
 
             #region Role
             CreateMap<Role, GetRoleQueryResponse>().ReverseMap();
+            CreateMap<Role, CreateRoleCommandRequest>().ReverseMap();
+            CreateMap<Role, UpdateRoleCommandRequest>().ReverseMap();
+            CreateMap<Role, DeleteRoleCommandRequest>().ReverseMap();
             #endregion
 
             #region Page

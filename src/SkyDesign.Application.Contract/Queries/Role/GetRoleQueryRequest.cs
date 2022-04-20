@@ -8,6 +8,6 @@ namespace SkyDesign.Application.Contract.Queries.Role
     [Serializable]
     public class GetRoleQueryRequest : IRequest<CommonResponse<List<GetRoleQueryResponse>>>
     {
-        public int RoleId { get; set; }
+
     }
 }

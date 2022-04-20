@@ -20,7 +20,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<Role>> AddAsync(Role request)
         {
-            string query = String.Format("INSERT INTO [dbo].[Role](RoleName, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}', '{2}', 1)", request.RoleName, request.CreateUser, DateTime.Now);
+            string query = String.Format("INSERT INTO [dbo].[Role](RoleName, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}', '{2}', 1)", request.RoleName, "krmcn", DateTime.Now);
             var data = new CommonResponse<Role>();
             data.Value = new Role();
             if (!connection.Success)
@@ -53,7 +53,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<Role>> AddUserRoleAsync(Role request)
         {
-            string query = String.Format("INSERT INTO [dbo].[UserRole](UserId, RoleId, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}', '{2}', '{3}', 1)", request.UserId, request.RoleId, request.CreateUser, DateTime.Now);            
+            string query = String.Format("INSERT INTO [dbo].[UserRole](UserId, RoleId, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}', '{2}', '{3}', 1)", request.UserId, request.RoleId, "krmcn", DateTime.Now);            
             var data = new CommonResponse<Role>();
             data.Value = new Role();
             if (!connection.Success)
@@ -86,7 +86,6 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<Role>> DeleteAsync(Role request)
         {
-            string query = String.Format("UPDATE [dbo].[Role] SET DeleteUser='{0}', DeleteDate ='{1}', IsActive=0 WHERE RoleId={2}", request.DeleteUser, DateTime.Now, request.RoleId);
             var data = new CommonResponse<Role>();
             data.Value = new Role();
             if (!connection.Success)
@@ -98,7 +97,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Role>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = await connection.db.QueryFirstOrDefaultAsync<Role>($"UPDATE [dbo].[Role] SET DeleteUser='krmcn', DeleteDate='{DateTime.Now}', IsActive=0 WHERE RoleId=@RoleId", request, commandType: CommandType.Text);
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -118,7 +117,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<List<Role>>> GetAllAsync()
         {
-            string query = String.Format("SELECT * FROM [dbo].[Role]");
+            string query = String.Format("SELECT * FROM [dbo].[Role] where IsActive = 1");
             var data = new CommonResponse<List<Role>>();
             data.Value = new List<Role>();
             if (!connection.Success)
@@ -217,7 +216,6 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<Role>> UpdateAsync(Role request)
         {
-            string query = String.Format("UPDATE [dbo].[Role] SET RoleName='{0}', UpdateUser='{1}', UpdateDate ='{2}' WHERE RoleId={3}", request.RoleName, request.UpdateUser, DateTime.Now, request.RoleId);
             var data = new CommonResponse<Role>();
             data.Value = new Role();
             if (!connection.Success)
@@ -229,7 +227,7 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Role>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Value = await connection.db.QueryFirstOrDefaultAsync<Role>($"UPDATE [dbo].[Role] SET RoleName=@RoleName, Description=@Description, UpdateUser='krmcn', UpdateDate ='{DateTime.Now}' WHERE RoleId={request.RoleId}", request, commandType: CommandType.Text);
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
