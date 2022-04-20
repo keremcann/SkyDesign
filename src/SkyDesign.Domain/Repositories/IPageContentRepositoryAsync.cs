@@ -27,5 +27,12 @@ namespace SkyDesign.Domain.Repositories
         /// <param name="catalogContent"></param>
         /// <returns></returns>
         Task<CommonResponse<object>> UpdatePageDetail(CatalogContent catalogContent);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="catalogContent"></param>
+        /// <returns></returns>
+        Task<CommonResponse<object>> DeletePageDetail(CatalogContent catalogContent);
     }
 }

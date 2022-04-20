@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace SkyDesign.Dapper.PageBase
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PageContentRepositoryAsync: DbConnection, IPageContentRepositoryAsync
     {
         /// <summary>
@@ -61,6 +64,46 @@ namespace SkyDesign.Dapper.PageBase
                 }
 
                 await connection.db.ExecuteAsync(queryBuilder.ToString(), propertyValues, commandType: CommandType.Text);
+
+                data.Success = true;
+                data.InfoMessage = "Successfull";
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="catalogContent"></param>
+        /// <returns></returns>
+        public async Task<CommonResponse<object>> DeletePageDetail(CatalogContent catalogContent)
+        {
+            var data = new CommonResponse<object>();
+            string query = $"DELETE FROM [dbo].[{catalogContent.TableName}] WHERE {catalogContent.TableName}Id = {catalogContent.Items[0].PropertyValue}";
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+            try
+            {
+                IList<KeyValuePair<string, object>> propertyValues = new List<KeyValuePair<string, object>>();
+
+                catalogContent.Items.ForEach(item =>
+                {
+                    propertyValues.Add(new KeyValuePair<string, object>(item.PropertyName, item.PropertyValue));
+                });
+
+                await connection.db.ExecuteAsync(query, propertyValues);
 
                 data.Success = true;
                 data.InfoMessage = "Successfull";
@@ -142,7 +185,7 @@ namespace SkyDesign.Dapper.PageBase
                 for (int columnNameIndex = 1; columnNameIndex <= catalogContent.Items.Count; columnNameIndex++)
                 {
                     if (catalogContent.Items.Count == columnNameIndex)
-                        queryBuilder.Append($"CreateUser = 'krmcn', CreateDate = '{DateTime.Now}', IsActive = 1 where {catalogContent.TableName}Id = {catalogContent.Items[0].PropertyValue}");
+                        queryBuilder.Append($"CreateUser = 'krmcn', CreateDate = '{DateTime.Now}', IsActive = 1 WHERE {catalogContent.TableName}Id = {catalogContent.Items[0].PropertyValue}");
                     else
                         queryBuilder.Append(catalogContent.Items[columnNameIndex].PropertyName + " = @" + catalogContent.Items[columnNameIndex].PropertyName + ", ");
                 }

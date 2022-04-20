@@ -76,6 +76,11 @@ namespace SkyDesign.ApiHost.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpGet("getPageDetail")]
         public async Task<IActionResult> GetPageDetail([FromQuery] GetPageDetailQueryRequest request)
         {
@@ -83,6 +88,11 @@ namespace SkyDesign.ApiHost.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("createPageDetail")]
         public async Task<IActionResult> CreatePageDetail([FromBody] CreatePageDetailCommandRequest request)
         {
@@ -90,10 +100,27 @@ namespace SkyDesign.ApiHost.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("updatePageDetail")]
         public async Task<IActionResult> UpdatePageDetail([FromBody] UpdatePageDetailCommandRequest request)
         {
             CommonResponse<UpdatePageDetailCommandResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("deletePageDetail")]
+        public async Task<IActionResult> DeletePageDetail([FromBody] DeletePageDetailCommandRequest request)
+        {
+            CommonResponse<DeletePageDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
     }
