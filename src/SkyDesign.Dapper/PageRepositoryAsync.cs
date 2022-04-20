@@ -118,7 +118,7 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<List<Page>>> GetAllAsync()
         {
-            string query = String.Format("SELECT * FROM [dbo].[Page]");
+            string query = String.Format("SELECT * FROM [dbo].[Page] WHERE IsActive=1");
             var data = new CommonResponse<List<Page>>();
             data.Value = new List<Page>();
             if (!connection.Success)
