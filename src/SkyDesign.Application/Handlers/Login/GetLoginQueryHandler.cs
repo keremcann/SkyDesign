@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SkyDesign.Application.Contract.Queries.Login;
 using SkyDesign.Core.Auth;
-using SkyDesign.Domain.Entities;
 using SkyDesign.Domain.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +32,7 @@ namespace SkyDesign.Application.Handlers.Login
         {
             var response = new GetLoginQueryResponse();
 
-            var user = _userRepository.GetItemAsync(new User { UserName = request.UserName, Password = request.Password });
+            var user = _userRepository.GetItemAsync(new Domain.Entities.User { UserName = request.UserName, Password = request.Password });
 
             if (!user.Result.Success)
                 return new GetLoginQueryResponse { Success = user.Result.Success, ErrorMessage = user.Result.ErrorMessage };

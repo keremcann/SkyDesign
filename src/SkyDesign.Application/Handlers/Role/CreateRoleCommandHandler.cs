@@ -3,10 +3,6 @@ using MediatR;
 using SkyDesign.Application.Contract.Commands.Role;
 using SkyDesign.Core.Base;
 using SkyDesign.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,8 +13,12 @@ namespace SkyDesign.Application.Handlers.Role
         private readonly IRoleRepositoryAsync _roleRepositoryAsync;
         private readonly IMapper _mapper;
 
-        public CreateRoleCommandHandler(IRoleRepositoryAsync roleRepositoryAsync,
-                                        IMapper mapper)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roleRepositoryAsync"></param>
+        /// <param name="mapper"></param>
+        public CreateRoleCommandHandler(IRoleRepositoryAsync roleRepositoryAsync, IMapper mapper)
         {
             _roleRepositoryAsync = roleRepositoryAsync;
             _mapper = mapper;
