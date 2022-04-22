@@ -10,18 +10,18 @@ namespace SkyDesign.Application.Handlers.Login
 {
     public class GetUserQueryHandler : IRequestHandler<GetUserQueryRequest, List<GetUserQueryResponse>>
     {
-        IUserRepository _userRepository;
-        IMapper _mapper;
+        private readonly IUserRepositoryAsync _userRepositoryAsync;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="mapper"></param>
-        public GetUserQueryHandler(IUserRepository userRepository, IMapper mapper)
+        public GetUserQueryHandler(IMapper mapper, IUserRepositoryAsync userRepositoryAsync)
         {
-            _userRepository = userRepository;
             _mapper = mapper;
+            _userRepositoryAsync = userRepositoryAsync;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace SkyDesign.Application.Handlers.Login
         /// <returns></returns>
         public async Task<List<GetUserQueryResponse>> Handle(GetUserQueryRequest request, CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetAll();
+            var users = await _userRepositoryAsync.GetAllAsync();
             var list = _mapper.Map<List<GetUserQueryResponse>>(users.Value);
             return await Task.FromResult(list);
         }

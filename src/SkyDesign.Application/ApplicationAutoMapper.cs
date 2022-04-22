@@ -12,6 +12,7 @@ using SkyDesign.Application.Contract.Queries.Diagram;
 using SkyDesign.Application.Contract.Commands.Page;
 using SkyDesign.Domain.CatalogBaseTypes;
 using SkyDesign.Application.Contract.Commands.Role;
+using SkyDesign.Application.Contract.Commands.User;
 
 namespace SkyDesign.Application
 {
@@ -21,6 +22,10 @@ namespace SkyDesign.Application
         {
             #region User
             CreateMap<User, GetUserQueryResponse>().ReverseMap();
+            CreateMap<CreateUserCommandRequest, User>().ReverseMap();
+            CreateMap<UpdateUserCommandRequest, User>().ReverseMap();
+            CreateMap<DeleteUserCommandRequest, User>().ReverseMap();
+            CreateMap<GetUserInformationByIdQueryResponse, User>().ReverseMap();
             #endregion
 
             #region Role
@@ -28,6 +33,9 @@ namespace SkyDesign.Application
             CreateMap<Role, CreateRoleCommandRequest>().ReverseMap();
             CreateMap<Role, UpdateRoleCommandRequest>().ReverseMap();
             CreateMap<Role, DeleteRoleCommandRequest>().ReverseMap();
+            CreateMap<Role, UpdateUserCommandRequest_UserRoleDto>().ReverseMap();
+            CreateMap<Role, CreateUserCommandRequest_UserRoleDto>().ReverseMap();
+            CreateMap<Role, GetUserInformationByIdQueryResponse_Role>().ReverseMap();
             #endregion
 
             #region Page

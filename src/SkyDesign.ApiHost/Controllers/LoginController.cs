@@ -34,18 +34,5 @@ namespace SkyDesign.ApiHost.Controllers
             GetLoginQueryResponse response = await _mediator.Send(request);
             return Ok(response);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost("getUsers")]
-        public async Task<IActionResult> GetUsers()
-        {
-            List<GetUserQueryResponse> response = await _mediator.Send(new GetUserQueryRequest());
-            return Ok(response);
-        }
     }
 }

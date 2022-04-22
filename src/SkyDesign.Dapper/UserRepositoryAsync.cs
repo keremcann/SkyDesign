@@ -21,7 +21,6 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<User>> AddAsync(User request)
         {
-            string query = String.Format("INSERT INTO [dbo].[User](FullName, UserName, Password, Email, CreateUser, CreateDate, IsActive) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6})", request.FullName, request.UserName, request.Password, request.Email, "krmcn", DateTime.Now, 1);
             var data = new CommonResponse<User>();
             data.Value = new User();
 
@@ -32,29 +31,61 @@ namespace SkyDesign.Dapper
                 return await Task.FromResult(data);
             }
 
+            using var transaction = connection.db.BeginTransaction();
             try
             {
                 #region insert new user
-                data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
+                await connection.db.ExecuteAsync(
+                    sql: @"
+                            INSERT INTO [dbo].[User] (FullName, UserName, Password, Email, CreateUser, CreateDate, IsActive) VALUES
+                                                     (@FullName, @UserName, @Password, @Email, @CreateUser, @CreateDate, @IsActive)",
+                    param: new
+                    {
+                        FullName = request.FullName,
+                        UserName = request.UserName,
+                        Password = request.Password,
+                        Email = request.Email,
+                        CreateUser = "krmcn",
+                        CreateDate = DateTime.Now,
+                        IsActive = true
+                    },
+                    commandType: CommandType.Text,
+                    transaction: transaction);
                 #endregion
 
                 #region select new user id (last user)
-                int userId = connection.db.QueryAsync<int>("SELECT TOP 1 UserId FROM [dbo].[User] ORDER BY 1 DESC", CommandType.Text).Result.FirstOrDefault();
+                int registeredUserId = await connection.db.QueryFirstOrDefaultAsync<int>("SELECT TOP 1 UserId FROM [dbo].[User] ORDER BY 1 DESC", CommandType.Text, transaction);
                 #endregion
 
                 #region insert user role
-                var userRole = connection.db.QueryAsync<dynamic>(String.Format("INSERT INTO [dbo].[UserRole](UserId, RoleId, CreateUser, CreateDate, IsActive) VALUES({0}, {1}, {2}, {3}, {4})", userId, request.RoleId, "krmcn", DateTime.Now, 1), CommandType.Text).Result.FirstOrDefault();
+                await connection.db.ExecuteAsync(
+                    sql: "INSERT INTO [dbo].[UserRole] (UserId, RoleId, CreateUser, CreateDate, IsActive) VALUES(@UserId, @RoleId, @CreateUser, @CreateDate, @IsActive)",
+                    new
+                    {
+                        UserId = registeredUserId,
+                        RoleId = request.Roles[0].RoleId,
+                        CreateUser = "krmcn",
+                        CreateDate = DateTime.Now,
+                        IsActive = true,
+                    },
+                    commandType: CommandType.Text,
+                    transaction: transaction);
                 #endregion
 
-                data.Success = true;
+                transaction.Commit();
                 connection.db.Close();
+                data.Success = true;
                 return await Task.FromResult(data);
             }
             catch (Exception ex)
             {
                 data.Success = false;
                 data.ErrorMessage = ex.Message;
+
+                transaction.Rollback();
+                transaction.Dispose();
                 connection.db.Close();
+
                 return await Task.FromResult(data);
             }
         }
@@ -211,6 +242,54 @@ namespace SkyDesign.Dapper
             }
         }
 
+        public async Task<CommonResponse<User>> GetUserInformationByIdAsync(int userId)
+        {
+            var data = new CommonResponse<User>();
+            data.Value = new User();
+
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                var result = await connection.db.QueryAsync<User, Role, User>(
+                    sql: @"
+                                SELECT * FROM [DBO].[User] u
+                                inner join [DBO].[UserRole] ur on u.UserId = ur.UserId
+                                where u.UserId = @UserId",
+                    map: (user, role) =>
+                    {
+                        user.Roles ??= new List<Role>();
+                        user.Roles?.Add(role);
+                        return user;
+                    }, splitOn: "UserRoleId",
+                    param: new
+                    {
+                        UserId = userId
+                    });
+
+                data.Value = result.FirstOrDefault();
+                data.Success = true;
+
+                connection.db.Close();
+
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+
+                connection.db.Close();
+
+                return await Task.FromResult(data);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -229,21 +308,47 @@ namespace SkyDesign.Dapper
                 return await Task.FromResult(data);
             }
 
+            using var transaction = connection.db.BeginTransaction();
             try
             {
-                data.Value = connection.db.QueryAsync<User>(query, CommandType.Text).Result.FirstOrDefault();
+                await connection.db.ExecuteAsync(
+                    sql: @"
+                            UPDATE [dbo].[User] SET FullName=@FullName, UserName=@UserName, Password=@Password, Email=@Email, UpdateUser=@UpdateUser, UpdateDate=@UpdateDate WHERE UserId=@UserId",
+                    param: request,
+                    commandType: CommandType.Text,
+                    transaction: transaction);
+
+                await connection.db.ExecuteAsync(
+                    sql: @"
+                            UPDATE [dbo].[UserRole] SET RoleId=@RoleId WHERE UserId=@UserId",
+                    param: new
+                    {
+                        UserId = request.UserId,
+                        RoleId = request.Roles[0].RoleId
+                    },
+                    commandType: CommandType.Text,
+                    transaction: transaction);
+
                 data.Success = true;
                 data.InfoMessage = "Successfully";
+
+                transaction.Commit();
                 connection.db.Close();
+
                 return await Task.FromResult(data);
             }
             catch (Exception ex)
             {
                 data.Success = false;
                 data.ErrorMessage = ex.Message;
+
                 FileLog log = new FileLog();
                 log.Error(ex.Message);
+
+                transaction.Rollback();
+                transaction.Dispose();
                 connection.db.Close();
+
                 return await Task.FromResult(data);
             }
         }
