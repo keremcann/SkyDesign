@@ -42,6 +42,8 @@ namespace SkyDesign.Application
             CreateMap<Page, GetPageQueryResponse>().ReverseMap();
             CreateMap<CreatePageDetailCommandRequest, CatalogContent>().ReverseMap();
             CreateMap<UpdatePageDetailCommandRequest, CatalogContent>().ReverseMap();
+            CreateMap<CreatePageCommandRequest, Page>().ReverseMap();
+            CreateMap<ColumnList, GetColumnListResponse>().ReverseMap();
             #endregion
 
             #region Catalog

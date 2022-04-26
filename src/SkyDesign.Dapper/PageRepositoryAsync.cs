@@ -20,9 +20,9 @@ namespace SkyDesign.Dapper
         /// <returns></returns>
         public async Task<CommonResponse<Page>> AddAsync(Page request)
         {
-            string query = String.Format("INSERT INTO [dbo].[Page](PageName, Description, PageIcon, PageUrl, CreateUser, CreateDate, IsActive) VALUES('{0}','{1}','{2}','{3}','{4}','{5}',1)", request.PageName, request.Description, request.PageIcon, request.PageUrl, request.CreateUser, DateTime.Now);
             var data = new CommonResponse<Page>();
             data.Value = new Page();
+
             if (!connection.Success)
             {
                 data.Success = false;
@@ -32,7 +32,24 @@ namespace SkyDesign.Dapper
 
             try
             {
-                data.Value = connection.db.QueryAsync<Page>(query, CommandType.Text).Result.FirstOrDefault();
+                await connection.db.ExecuteAsync(
+                    sql: $@"INSERT INTO [dbo].[Page](ParentId, IsCustom, PageName, PageIcon, Description, PageUrl, CreateUser, CreateDate, IsActive)
+                                              VALUES(@ParentId, @IsCustom, @PageName, @PageIcon, @Description, @PageUrl, @CreateUser, @CreateDate, @IsActive)",
+                    param: new Page
+                    {
+                        ParentId = request.ParentId,
+                        IsCustom = request.IsCustom,
+                        PageName = request.PageName,
+                        PageIcon = request.PageIcon,
+                        Description = request.Description,
+                        PageUrl = request.PageUrl,
+                        CreateUser = "krmcn",
+                        CreateDate = DateTime.Now,
+                        IsActive = true
+                    },
+                    commandType: CommandType.Text
+                    );
+
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -66,6 +83,52 @@ namespace SkyDesign.Dapper
             try
             {
                 data.Value = connection.db.QueryAsync<Page>(query, CommandType.Text).Result.FirstOrDefault();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+        }
+
+        public async Task<CommonResponse<string>> CreateDefaultTable(Page request)
+        {
+            var data = new CommonResponse<string>();
+            data.Value = string.Empty;
+
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                //pageName i SampleTableName
+                await connection.db.ExecuteAsync(
+                    sql: $@"
+                            CREATE TABLE [DBO].{request.TableName} (
+                                {request.TableName}Id int IDENTITY(1,1) PRIMARY KEY,
+                                Name varchar(100) NOT NULL,
+                                Description varchar(150),
+                                CreateUser varchar(50) NOT NULL,
+                                CreateDate datetime NOT NULL,
+                                UpdateUser varchar(50),
+                                UpdateDate datetime,
+                                DeleteUser varchar(50),
+                                DeleteDate datetime,
+                                IsActive bit NOT NULL
+                            );
+                            ",
+                    commandType: CommandType.Text
+                    );
+
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -131,6 +194,35 @@ namespace SkyDesign.Dapper
             try
             {
                 data.Value = connection.db.QueryAsync<Page>(query, CommandType.Text).Result.ToList();
+                data.Success = true;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+        }
+
+        public async Task<CommonResponse<List<ColumnList>>> GetAllColumnListAsync()
+        {
+            var data = new CommonResponse<List<ColumnList>>();
+            data.Value = new List<ColumnList>();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                data.Value = connection.db.QueryAsync<ColumnList>(
+                    sql: "SELECT * FROM [DBO].[ColumnList]",
+                    commandType: CommandType.Text).Result.ToList();
                 data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
@@ -210,7 +302,7 @@ namespace SkyDesign.Dapper
             }
         }
 
-        
+
 
         /// <summary>
         /// 

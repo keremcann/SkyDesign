@@ -123,5 +123,70 @@ namespace SkyDesign.ApiHost.Controllers
             CommonResponse<DeletePageDetailCommandResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet("getColumnList")]
+        public async Task<IActionResult> GetColumnList([FromQuery] GetColumnListRequest request)
+        {
+            CommonResponse<List<GetColumnListResponse>> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("createColumnList")]
+        public async Task<IActionResult> CreateColumnList([FromBody] CreateColumnListRequest request)
+        {
+            CommonResponse<CreateColumnListResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPut("updateColumnList")]
+        public async Task<IActionResult> UpdateColumnList([FromBody] UpdateColumnListRequest request)
+        {
+            CommonResponse<UpdateColumnListResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpDelete("deleteColumnList")]
+        public async Task<IActionResult> DeleteColumnList([FromBody] DeleteColumnListRequest request)
+        {
+            CommonResponse<DeleteColumnListResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("createColumnList")]
+        public async Task<IActionResult> DefineColumnTo([FromBody] CreateColumnListRequest request)
+        {
+            CommonResponse<CreateColumnListResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
     }
 }

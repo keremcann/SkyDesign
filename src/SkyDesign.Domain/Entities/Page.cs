@@ -11,6 +11,8 @@ namespace SkyDesign.Domain.Entities
         public int? ParentId { get; set; }
         [NotMapped]
         public int RoleId { get; set; }
+        [NotMapped]
+        public string TableName { get; set; }
         public bool IsCustom { get; set; }
         public string PageName { get; set; }
         public string Description { get; set; }
