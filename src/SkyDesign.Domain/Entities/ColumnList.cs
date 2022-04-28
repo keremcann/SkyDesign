@@ -9,6 +9,7 @@ namespace SkyDesign.Domain.Entities
 {
     public class ColumnList : IEntity
     {
+        public string ColumnListId { get; set; }
         public string ColumnName { get; set; }
         public string DataType { get; set; }
         public string Nullable { get; set; }

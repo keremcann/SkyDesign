@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkyDesign.Application.Contract.Commands.Page
+namespace SkyDesign.Application.Contract.Queries.Page
 {
-    public class CreateColumnListRequest : IRequest<CommonResponse<CreateColumnListResponse>>
+    public class GetAllColumnListByPageIdRequest : IRequest<CommonResponse<List<GetAllColumnListByPageIdResponse>>>
     {
         public int PageId { get; set; }
-        public int ColumnListId { get; set; }
     }
 }

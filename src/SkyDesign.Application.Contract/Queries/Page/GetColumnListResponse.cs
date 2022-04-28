@@ -4,6 +4,7 @@ namespace SkyDesign.Application.Contract.Queries.Page
 {
     public class GetColumnListResponse
     {
+        public int ColumnListId { get; set; }
         public string ColumnName { get; set; }
         public string DataType { get; set; }
         public string Nullable { get; set; }

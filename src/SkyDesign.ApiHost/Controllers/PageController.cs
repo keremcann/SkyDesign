@@ -176,16 +176,57 @@ namespace SkyDesign.ApiHost.Controllers
             return Ok(response);
         }
 
+        // TODO: 1. kısım
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("createColumnList")]
-        public async Task<IActionResult> DefineColumnTo([FromBody] CreateColumnListRequest request)
+        [HttpPost("defineColumnToTable")]
+        public async Task<IActionResult> DefineColumnToTable([FromBody] CreateColumnListRequest request)
         {
             CommonResponse<CreateColumnListResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet("getAllColumnListByPageId")]
+        public async Task<IActionResult> GetAllColumnListByPageId([FromQuery] GetAllColumnListByPageIdRequest request)
+        {
+            CommonResponse<List<GetAllColumnListByPageIdResponse>> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("addColumnToTable")]
+        public async Task<IActionResult> AddColumnToTable([FromBody] AddColumnToTableRequest request)
+        {
+            CommonResponse<AddColumnToTableResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("dropColumnFromTable")]
+        public async Task<IActionResult> DropColumnFromTable([FromBody] DropColumnFromTableRequest request)
+        {
+            CommonResponse<DropColumnFromTableResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
     }
