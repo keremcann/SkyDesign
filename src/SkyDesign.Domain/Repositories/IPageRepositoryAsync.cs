@@ -22,5 +22,6 @@ namespace SkyDesign.Domain.Repositories
                                                        string columnName,
                                                        string hasRelationship,
                                                        string joinedTableName);
+        Task<CommonResponse<dynamic>> GetAddOrUpdateModalDetailPage(string selectedPage, int? id);
     }
 }

@@ -34,8 +34,8 @@ namespace SkyDesign.Dapper
             try
             {
                 await connection.db.ExecuteAsync(
-                    sql: $@"INSERT INTO [dbo].[Page](ParentId, IsCustom, PageName, PageIcon, Description, PageUrl, CreateUser, CreateDate, IsActive)
-                                              VALUES(@ParentId, @IsCustom, @PageName, @PageIcon, @Description, @PageUrl, @CreateUser, @CreateDate, @IsActive)",
+                    sql: $@"INSERT INTO [dbo].[Page](ParentId, IsCustom, PageName, PageIcon, Description, PageUrl, CreateUser, CreateDate, IsActive, TableName)
+                                              VALUES(@ParentId, @IsCustom, @PageName, @PageIcon, @Description, @PageUrl, @CreateUser, @CreateDate, @IsActive, @TableName)",
                     param: new Page
                     {
                         ParentId = request.ParentId,
@@ -46,6 +46,7 @@ namespace SkyDesign.Dapper
                         PageUrl = request.PageUrl,
                         CreateUser = "krmcn",
                         CreateDate = DateTime.Now,
+                        TableName = request.TableName,
                         IsActive = true
                     },
                     commandType: CommandType.Text
@@ -278,6 +279,105 @@ namespace SkyDesign.Dapper
 
                 data.Success = true;
                 data.InfoMessage = "İşlem başarılı!";
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+            catch (Exception ex)
+            {
+                data.Success = false;
+                data.ErrorMessage = ex.Message;
+                connection.db.Close();
+                return await Task.FromResult(data);
+            }
+        }
+
+        public async Task<CommonResponse<dynamic>> GetAddOrUpdateModalDetailPage(string selectedPage, int? id)
+        {
+            var data = new CommonResponse<dynamic>();
+            if (!connection.Success)
+            {
+                data.Success = false;
+                data.ErrorMessage = connection.ErrorMessage;
+                return await Task.FromResult(data);
+            }
+
+            try
+            {
+                var tableName = connection.db.QueryFirstOrDefault<string>("SELECT TableName FROM [dbo].[Page] WHERE PageUrl = @PageUrl", new
+                {
+                    PageUrl = selectedPage
+                }, commandType: CommandType.Text);
+
+
+                IDictionary<string, object> selectedItem = null;
+
+                if (id != null)
+                    selectedItem = connection.db.QueryFirstOrDefault(
+                        sql: $"SELECT * FROM [dbo].[{tableName}] WHERE {tableName}Id = @Id",
+                        param: new { Id = id },
+                        commandType: CommandType.Text);
+
+                string columnQuery = $@"SELECT TABLE_SCHEMA TableSchema, TABLE_NAME TableName, COLUMN_NAME ColumnName, DATA_TYPE DataType
+                                     FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @TableName";
+                var genericTableColumnList = (List<ColumnDefinition>)connection.db.Query<ColumnDefinition>(columnQuery, new
+                {
+                    TableName = tableName
+                }, commandType: CommandType.Text);
+                genericTableColumnList.ForEach(gtc => gtc.IsInColumn = true);
+
+                genericTableColumnList.AddRange(new List<ColumnDefinition> {
+                    new ColumnDefinition { ColumnName = "Name" },
+                    new ColumnDefinition { ColumnName = "Description" },
+                });
+
+                var definedTableColumnList = (List<ColumnDefinition>)await connection.db.QueryAsync<ColumnDefinition>(
+                    sql: $@"SELECT * FROM [dbo].[ColumnList]",
+                    commandType: CommandType.Text
+                    );
+
+                definedTableColumnList.AddRange(new List<ColumnDefinition> {
+                    new ColumnDefinition { ColumnName = "Name" },
+                    new ColumnDefinition { ColumnName = "Description" },
+                });
+
+                definedTableColumnList.ForEach((definedTableColumn) =>
+                {
+                    if (genericTableColumnList.Contains(definedTableColumn))
+                    {
+                        definedTableColumn.IsInColumn = true;
+                        definedTableColumn.CurrentData = selectedItem?[definedTableColumn.ColumnName] ?? "";
+
+                        return;
+                    }
+
+                    definedTableColumn.ColumnName += "Id";
+                    if (genericTableColumnList.Contains(definedTableColumn))
+                    {
+                        definedTableColumn.IsInColumn = true;
+                        definedTableColumn.CurrentData = selectedItem?[definedTableColumn.ColumnName] ?? "";
+                    }
+                    definedTableColumn.ColumnName = definedTableColumn.ColumnName[0..^2];
+
+                });
+
+                definedTableColumnList.ForEach(dtc =>
+                {
+                    if (dtc.HasRelation != "1") return;
+
+                    var joinedTableData = connection.db.Query<RelationalData>(
+                        sql: $"SELECT {dtc.TableName}Id as Id, Name from {dtc.TableName}",
+                        commandType: CommandType.Text).ToList();
+
+                    dtc.RelationalDataList.AddRange(joinedTableData);
+                });
+
+                bool matchedColumnDefinitions(ColumnDefinition dtc) =>
+                                        genericTableColumnList.Exists(gtc => dtc.ColumnName + "Id" == gtc.ColumnName) ||
+                                        genericTableColumnList.Exists(gtc => dtc.ColumnName == gtc.ColumnName);
+
+                data.Value = definedTableColumnList.Where(matchedColumnDefinitions);
+
+                data.Success = true;
                 connection.db.Close();
                 return await Task.FromResult(data);
             }

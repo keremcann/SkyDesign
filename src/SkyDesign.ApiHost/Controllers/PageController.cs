@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using SkyDesign.Application.Contract.Commands.Page;
 using SkyDesign.Application.Contract.Queries.Page;
 using SkyDesign.Core.Base;
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SkyDesign.ApiHost.Controllers
@@ -227,6 +229,19 @@ namespace SkyDesign.ApiHost.Controllers
         public async Task<IActionResult> DropColumnFromTable([FromBody] DropColumnFromTableRequest request)
         {
             CommonResponse<DropColumnFromTableResponse> response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("getAddOrUpdateModalDetailPageByPage")]
+        public async Task<IActionResult> GetAddOrUpdateModalDetailPage([FromQuery] GetAddOrUpdateModalDetailPageRequest request)
+        {
+            CommonResponse<GetAddOrUpdateModalDetailPageResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
     }

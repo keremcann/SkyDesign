@@ -43,7 +43,8 @@ namespace SkyDesign.Application.Handlers.Page
                     Result = result.Value
                 },
                 Success = result.Success,
-                InfoMessage = result.InfoMessage
+                InfoMessage = result.InfoMessage,
+                ErrorMessage = result.ErrorMessage
             });
         }
     }

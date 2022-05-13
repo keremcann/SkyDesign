@@ -16,6 +16,8 @@ namespace SkyDesign.Domain.Entities
         public int ColumnListId { get; set; }
         public string HasRelation { get; set; }
         public string Nullable { get; set; }
+        public List<RelationalData> RelationalDataList { get; set; } = new List<RelationalData>();
+        public object CurrentData { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -36,5 +38,11 @@ namespace SkyDesign.Domain.Entities
         {
             return !(left == right);
         }
+    }
+
+    public class RelationalData
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

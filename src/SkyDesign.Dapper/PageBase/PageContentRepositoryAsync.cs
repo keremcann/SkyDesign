@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Newtonsoft.Json;
 using SkyDesign.Core.Base;
 using SkyDesign.Core.Connection;
 using SkyDesign.Domain.CatalogBaseTypes;
@@ -16,7 +17,7 @@ namespace SkyDesign.Dapper.PageBase
     /// <summary>
     /// 
     /// </summary>
-    public class PageContentRepositoryAsync: DbConnection, IPageContentRepositoryAsync
+    public class PageContentRepositoryAsync : DbConnection, IPageContentRepositoryAsync
     {
         /// <summary>
         /// 
@@ -129,19 +130,72 @@ namespace SkyDesign.Dapper.PageBase
                 }
 
                 string tableQuery = "SELECT TableName FROM [dbo].[Page] WHERE PageUrl = @PageUrl";
-                var tableName = await connection.db.QueryFirstOrDefaultAsync<string>(tableQuery, new
+                var tableName = connection.db.QueryFirstOrDefaultAsync<string>(tableQuery, new
                 {
                     PageUrl = pageUrl
-                }, commandType: CommandType.Text);
+                }, commandType: CommandType.Text).Result;
 
-                string dataQuery = $"SELECT * FROM [dbo].[{tableName}]";
-                var tableData = connection.db.QueryAsync<dynamic>(dataQuery, commandType: CommandType.Text).Result.ToList();
+
                 string columnQuery = $@"SELECT TABLE_SCHEMA TableSchema, TABLE_NAME TableName, COLUMN_NAME ColumnName, DATA_TYPE DataType
                                      FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @TableName";
-                var tableColumnList = await connection.db.QueryAsync<ColumnDefinition>(columnQuery, new
+                var tableColumnList = connection.db.QueryAsync<ColumnDefinition>(columnQuery, new
                 {
                     TableName = tableName
-                }, commandType: CommandType.Text);
+                }, commandType: CommandType.Text).Result.ToList();
+
+                var tableColumnDefinitionList = connection.db.QueryAsync<ColumnDefinition>($"SELECT * FROM [dbo].[ColumnList]").Result.ToList();
+
+                StringBuilder selectBuilder = new(@$"
+                                    mainTable.{tableName + "Id"},
+                                    mainTable.Name,
+                                    mainTable.Description,
+                                    mainTable.CreateUser,
+                                    mainTable.CreateDate,
+                                    mainTable.UpdateUser,
+                                    mainTable.UpdateDate,
+                                    mainTable.DeleteUser,
+                                    mainTable.DeleteDate,
+                                    mainTable.IsActive");
+
+                StringBuilder dataQueryBuilder = new($"SELECT {{{{SELECT_DATA}}}} FROM [dbo].[{tableName}] mainTable");
+
+                foreach (var tableColumnItem in tableColumnList.ToList())
+                {
+                    if (tableColumnDefinitionList.Exists(tcd => tcd.ColumnName == tableColumnItem?.ColumnName))
+                    {
+                        selectBuilder.Append($",{tableColumnItem.ColumnName}");
+                        continue;
+                    }
+
+                    if (
+                        tableColumnItem == null ||
+                        tableColumnItem.ColumnName == tableName + "Id" ||
+                        !tableColumnItem.ColumnName.EndsWith("Id") ||
+                        !tableColumnDefinitionList.Exists(tcd =>tcd.ColumnName != tableColumnItem.ColumnName))
+                        continue;
+
+                    var tableColumnDefinition = tableColumnDefinitionList.Find(tcd => tcd.ColumnName == tableColumnItem.ColumnName?[0..^2]);
+
+                    if (tableColumnDefinition is not null)
+                    {
+                        dataQueryBuilder.AppendLine(@$"
+                                LEFT OUTER JOIN {tableColumnDefinition.TableName} as {tableColumnItem.ColumnName[0..^2]}
+                                ON mainTable.{tableColumnItem.ColumnName} = {tableColumnItem.ColumnName[0..^2]}.{tableColumnDefinition.TableName + "Id"}");
+
+                        selectBuilder.Append($",{tableColumnItem.ColumnName[0..^2]}.Name as {tableColumnItem.ColumnName[0..^2]}");
+
+                        tableColumnList.Add(new ColumnDefinition
+                        {
+                            ColumnName = tableColumnDefinition.ColumnName
+                        });
+
+                        tableColumnList.Remove(tableColumnList.Find(tcl => tcl.ColumnName == tableColumnDefinition.ColumnName + "Id"));
+                    }
+                }
+
+                var query = dataQueryBuilder.ToString().Replace("{{SELECT_DATA}}", selectBuilder.ToString());
+
+                var tableData = connection.db.QueryAsync<dynamic>(query, commandType: CommandType.Text).Result.ToList();
 
                 data.Value = new ColumnInfo<object>
                 {
