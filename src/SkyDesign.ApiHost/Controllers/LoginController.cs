@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkyDesign.Application.Contract.Queries.Login;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SkyDesign.ApiHost.Controllers
@@ -28,7 +29,7 @@ namespace SkyDesign.ApiHost.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("generateToken")]
-        public async Task<IActionResult> GenerateToken([FromQuery] GetLoginQueryRequest request)
+        public async Task<IActionResult> GenerateToken([FromBody] GetLoginQueryRequest request)
         {
             GetLoginQueryResponse response = await _mediator.Send(request);
             return Ok(response);

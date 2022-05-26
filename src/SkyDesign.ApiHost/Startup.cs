@@ -1,14 +1,21 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SkyDesign.Application;
-using SkyDesign.Helper.Auth;
-using SkyDesign.Helper.Configuration;
+using SkyDesign.Core.Auth;
+using SkyDesign.Core.Configuration;
+using SkyDesign.Dapper;
+using SkyDesign.Dapper.PageBase;
+using SkyDesign.Domain.Repositories;
+using SkyDesign.EntityFrameworkCore.Business;
+using SkyDesign.EntityFrameworkCore.Context;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace SkyDesign.ApiHost
@@ -35,6 +42,9 @@ namespace SkyDesign.ApiHost
             services.AddApplicationRegistration();
 
             services.AddControllers();
+            services.AddDbContext<ApplicationContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("EFCore"),
+            b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
 
             var key = Encoding.ASCII.GetBytes(AppSettings.GetSecretKey());
             services.AddAuthentication(options => 
@@ -59,7 +69,7 @@ namespace SkyDesign.ApiHost
             {
                 option.SwaggerDoc("v1", new OpenApiInfo 
                 { 
-                    Title = "SkyDesign.ApiHost", 
+                    Title = "SkyDesign APIs", 
                     Version = "v1",
                     Description = "Sky Design Services",
                     Contact = new OpenApiContact
@@ -101,6 +111,37 @@ namespace SkyDesign.ApiHost
             });
 
             services.AddScoped<IAuthentication, Authentication>();
+
+            #region Dapper
+            services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
+            services.AddScoped<IPageRepositoryAsync, PageRepositoryAsync>();
+            services.AddScoped<IRoleRepositoryAsync, RoleRepositoryAsync>();
+            services.AddScoped<ICatalogRepositoryAsync, CatalogRepositoryAsync>();
+            services.AddScoped<ISubCatalogRepositoryAsync, SubCatalogRepositoryAsync>();
+            services.AddScoped<ISubCatalogDetailRepositoryAsync, SubCatalogDetailRepositoryAsync>();
+            services.AddScoped<IDiagramRepositoryAsync, DiagramRepositoryAsync>();
+
+            services.AddScoped<IPageContentRepositoryAsync, PageContentRepositoryAsync>();
+            #endregion
+
+            #region EntityFramework Core
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ICatalogRepository, CatalogRepository>();
+            services.AddScoped<ISubCatalogRepository, SubCatalogRepository>();
+            services.AddScoped<ISubCatalogDetailRepository, SubCatalogDetailRepository>();
+            #endregion
+
+            services.AddAutoMapper(typeof(ApplicationAutoMapper));
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("default", policy =>
+                {
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                });
+            });
         }
 
         /// <summary>
@@ -114,12 +155,14 @@ namespace SkyDesign.ApiHost
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyDesign.ApiHost v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyDesign APIs v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("default");
 
             app.UseAuthentication();
             app.UseAuthorization();
