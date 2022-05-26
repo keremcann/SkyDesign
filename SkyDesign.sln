@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyDesign.Domain.Shared", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyDesign.Core", "src\SkyDesign.Core\SkyDesign.Core.csproj", "{ABF78D13-5447-46AC-9E70-2011F4B30F6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyDesign.Dapper", "src\SkyDesign.Dapper\SkyDesign.Dapper.csproj", "{43DFE7DC-08DF-4822-ADB8-D32806226A1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyDesign.Dapper", "src\SkyDesign.Dapper\SkyDesign.Dapper.csproj", "{43DFE7DC-08DF-4822-ADB8-D32806226A1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyDesign.EntityFrameworkCore", "src\SkyDesign.EntityFrameworkCore\SkyDesign.EntityFrameworkCore.csproj", "{20B6DB8E-2119-4B0D-8C0F-401EDD1FDFE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyDesign.EntityFrameworkCore", "src\SkyDesign.EntityFrameworkCore\SkyDesign.EntityFrameworkCore.csproj", "{20B6DB8E-2119-4B0D-8C0F-401EDD1FDFE4}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BE3B9E3B-82A2-4AF3-A6D4-59A02D012E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{20B6DB8E-2119-4B0D-8C0F-401EDD1FDFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20B6DB8E-2119-4B0D-8C0F-401EDD1FDFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20B6DB8E-2119-4B0D-8C0F-401EDD1FDFE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3B9E3B-82A2-4AF3-A6D4-59A02D012E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3B9E3B-82A2-4AF3-A6D4-59A02D012E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3B9E3B-82A2-4AF3-A6D4-59A02D012E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3B9E3B-82A2-4AF3-A6D4-59A02D012E37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

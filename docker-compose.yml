@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  skydesign_apihost:
+    image: ${DOCKER_REGISTRY-}skydesign_apihost
+    build:
+      context: .
+      dockerfile: src/SkyDesign.ApiHost/Dockerfile
